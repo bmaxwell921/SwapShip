@@ -1,6 +1,7 @@
 package main.swapship.factories;
 
 import main.swapship.common.Constants;
+import main.swapship.common.DefensiveSpecialType;
 import main.swapship.common.OffensiveSpecialType;
 import main.swapship.components.DamageComp;
 import main.swapship.components.FireRateComp;
@@ -15,6 +16,7 @@ import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.other.PathFollowComp;
 import main.swapship.components.other.PathTargetComp;
 import main.swapship.components.other.SingleSpriteComp;
+import main.swapship.components.player.MoveWithPlayerComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
 import main.swapship.components.player.SpecialComp;
@@ -85,8 +87,8 @@ public class EntityFactory {
 
 		SpecialComp spc = world.createComponent(SpecialComp.class);
 		// Testing
-		spc.offensive = OffensiveSpecialType.MISSILE;
-		spc.offensiveCount = 100;
+		spc.defensive = DefensiveSpecialType.SHIELD;
+		spc.defensiveCount = Integer.MAX_VALUE;
 		e.addComponent(spc);
 
 		HealthComp hc = world.createComponent(HealthComp.class);
@@ -213,6 +215,19 @@ public class EntityFactory {
 		return true;
 	}
 
+	public static boolean createDefensiveSpecial(World world,
+			DefensiveSpecialType type, float sourceX, float sourceY) {
+		if (type == DefensiveSpecialType.NONE) {
+			return false;
+		}
+
+		if (type == DefensiveSpecialType.SHIELD) {
+			createShield(world, sourceX, sourceY);
+		}
+		return true;
+
+	}
+
 	private static void createMissile(World world, float sourceX,
 			float sourceY, Entity target) {
 		Entity e = world.createEntity();
@@ -247,7 +262,7 @@ public class EntityFactory {
 		e.addToWorld();
 	}
 
-	public static void createBeam(World world, float srcX, float srcY) {
+	private static void createBeam(World world, float srcX, float srcY) {
 		// Beams are actually just a bunch of beams
 		int numBeams = Gdx.graphics.getHeight() / Constants.Beam.HEIGHT + 1;
 		float y = srcY;
@@ -289,6 +304,33 @@ public class EntityFactory {
 
 			y += Constants.Beam.HEIGHT;
 		}
+	}
+
+	private static void createShield(World world, float sourceX, float sourceY) {
+		Entity e = world.createEntity();
+
+		MoveWithPlayerComp mwpc = world
+				.createComponent(MoveWithPlayerComp.class);
+		mwpc.xDisplace = -(Constants.Shield.WIDTH - Constants.SHIP_WIDTH) / 2;
+		mwpc.yDispace = -(Constants.Shield.HEIGHT - Constants.SHIP_HEIGHT) / 2;
+		e.addComponent(mwpc);
+
+		SpatialComp sc = world.createComponent(SpatialComp.class);
+		sc.setValues(sourceX + mwpc.xDisplace, sourceY + mwpc.yDispace,
+				Constants.Shield.WIDTH, Constants.Shield.HEIGHT);
+		e.addComponent(sc);
+
+		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
+		ssc.name = Constants.Shield.NAME;
+		ssc.tint = Color.WHITE;
+		e.addComponent(ssc);
+
+		HealthComp hc = world.createComponent(HealthComp.class);
+		hc.health = Constants.Shield.HEALTH;
+		e.addComponent(hc);
+
+		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
+		e.addToWorld();
 	}
 
 	public static void createExplosion(World world, float x, float y,

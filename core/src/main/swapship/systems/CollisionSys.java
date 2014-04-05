@@ -75,16 +75,18 @@ public class CollisionSys extends EntitySystem {
 									enemyLoc.y, enemyVel.xVel, enemyVel.yVel);
 							two.deleteFromWorld();
 							world.deleteEntity(two);
-							world.getManager(GroupManager.class).removeFromAllGroups(two);
+							world.getManager(GroupManager.class)
+									.removeFromAllGroups(two);
 						}
 						HealthComp hc = hcm.getSafe(one);
 						// If it has no health, it's a bullet so remove
 						if (hc == null) {
 							one.deleteFromWorld(); // Remove the bullet
 							world.deleteEntity(one);
-							world.getManager(GroupManager.class).removeFromAllGroups(one);
+							world.getManager(GroupManager.class)
+									.removeFromAllGroups(one);
 						}
-						
+
 						// Otherwise it's some kind of special so let it go
 					}
 				}));
@@ -96,23 +98,26 @@ public class CollisionSys extends EntitySystem {
 					@Override
 					public void handle(Entity one, Entity two) {
 						HealthComp playerHp = hcm.get(two);
-						VelocityComp playerVel = vcm.get(two);
+						VelocityComp playerVel = vcm.getSafe(two);
 						SpatialComp playerLoc = scm.get(two);
 						DamageComp shotDmg = dcm.get(one);
 
 						playerHp.health -= shotDmg.damage;
 						if (playerHp.health <= 0) {
-							EntityFactory
-									.createExplosion(world, playerLoc.x,
-											playerLoc.y, playerVel.xVel,
-											playerVel.yVel);
+							if (playerVel != null) {
+								EntityFactory.createExplosion(world,
+										playerLoc.x, playerLoc.y,
+										playerVel.xVel, playerVel.yVel);
+							}
 							two.deleteFromWorld();
 							world.deleteEntity(two);
-							world.getManager(GroupManager.class).removeFromAllGroups(two);
+							world.getManager(GroupManager.class)
+									.removeFromAllGroups(two);
 						}
 						one.deleteFromWorld(); // Remove the bullet
 						world.deleteEntity(one);
-						world.getManager(GroupManager.class).removeFromAllGroups(one);
+						world.getManager(GroupManager.class)
+								.removeFromAllGroups(one);
 					}
 				}));
 		collisionGroups.add(new CollisionGroup(Constants.Groups.ENEMY,
@@ -128,13 +133,15 @@ public class CollisionSys extends EntitySystem {
 
 						playerHp.health -= enemyDmg.damage;
 						if (playerHp.health <= 0) {
-							EntityFactory
-									.createExplosion(world, playerLoc.x,
-											playerLoc.y, playerVel.xVel,
-											playerVel.yVel);
+							if (playerVel != null) {
+								EntityFactory.createExplosion(world,
+										playerLoc.x, playerLoc.y,
+										playerVel.xVel, playerVel.yVel);
+							}
 							two.deleteFromWorld();
 							world.deleteEntity(two);
-							world.getManager(GroupManager.class).removeFromAllGroups(two);
+							world.getManager(GroupManager.class)
+									.removeFromAllGroups(two);
 						}
 						VelocityComp enemyVel = vcm.get(one);
 						SpatialComp enemyLoc = scm.get(one);
@@ -142,7 +149,8 @@ public class CollisionSys extends EntitySystem {
 								enemyLoc.y, enemyVel.xVel, enemyVel.yVel);
 						one.deleteFromWorld(); // Remove the enemy
 						world.deleteEntity(one);
-						world.getManager(GroupManager.class).removeFromAllGroups(one);
+						world.getManager(GroupManager.class)
+								.removeFromAllGroups(one);
 					}
 
 				}));

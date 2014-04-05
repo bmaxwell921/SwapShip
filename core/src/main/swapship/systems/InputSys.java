@@ -92,8 +92,9 @@ public class InputSys extends EntityProcessingSystem {
 				return;
 			}
 			// Create defensive special
-
-			--sc.defensiveCount;
+			if (EntityFactory.createDefensiveSpecial(world, sc.defensive, spc.x, spc.y)) {
+				--sc.defensiveCount;
+			}
 		} else {
 			if (sc.offensiveCount <= 0
 					|| !TargetUtil.existsTargets(world, Constants.Groups.ENEMY)) {

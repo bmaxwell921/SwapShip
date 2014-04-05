@@ -98,6 +98,15 @@ public class Constants {
 		public static final int BASE_DAMAGE = 20;
 	}
 	
+	public static class Shield {
+		public static final int WIDTH = 117;
+		public static final int HEIGHT = 117;
+		
+		public static final String NAME = "Shield";
+		
+		public static final int HEALTH = 100;
+	}
+	
 	public static class Explosion {
 		public static final int WIDTH = 81;
 		public static final int HEIGHT = 81;

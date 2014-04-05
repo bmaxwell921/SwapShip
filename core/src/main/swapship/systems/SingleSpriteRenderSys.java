@@ -45,7 +45,7 @@ public class SingleSpriteRenderSys extends EntityProcessingSystem {
 		
 		SingleSpriteComp ssc = sscm.get(e);
 
-		float rotation = e.getComponent(BeamComp.class) == null ? VectorUtil.calcRotation(vc.xVel, vc.yVel) : 0;
+		float rotation = vc != null ? VectorUtil.calcRotation(vc.xVel, vc.yVel) : 0;
 		TextureRegion tr = AssetUtil.getInstance().getTexture(ssc.name);
 		game.batch.setProjectionMatrix(camera.combined);
 
