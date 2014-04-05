@@ -2,8 +2,10 @@ package main.swapship.systems;
 
 import main.swapship.SwapShipGame;
 import main.swapship.components.SpatialComp;
+import main.swapship.components.VelocityComp;
 import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.util.AssetUtil;
+import main.swapship.util.VectorUtil;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SingleSpriteRenderSys extends EntityProcessingSystem {
 
 	private ComponentMapper<SpatialComp> scm;
+	private ComponentMapper<VelocityComp> vcm;
 	private ComponentMapper<SingleSpriteComp> sscm;
 
 	private final SwapShipGame game;
@@ -31,18 +34,22 @@ public class SingleSpriteRenderSys extends EntityProcessingSystem {
 	public void initialize() {
 		scm = world.getMapper(SpatialComp.class);
 		sscm = world.getMapper(SingleSpriteComp.class);
+		vcm = world.getMapper(VelocityComp.class);
 	}
 
 	@Override
 	public void process(Entity e) {
 		SpatialComp sc = scm.get(e);
+		VelocityComp vc = vcm.get(e);
+		
 		SingleSpriteComp ssc = sscm.get(e);
 
+		float rotation = VectorUtil.calcRotation(vc.xVel, vc.yVel);
 		TextureRegion tr = AssetUtil.getInstance().getTexture(ssc.name);
 		game.batch.setProjectionMatrix(camera.combined);
 
 		game.batch.setColor(ssc.tint);
 		game.batch.draw(tr, sc.x, sc.y, sc.width / 2, sc.height / 2, sc.width,
-				sc.height, 1, 1, 0);
+				sc.height, 1, 1, rotation);
 	}
 }

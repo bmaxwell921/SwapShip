@@ -9,12 +9,12 @@ public class VectorUtil {
 	
 	/**
 	 * Calculates the rotation from vertical for the given vector
-	 * @param x
-	 * @param y
+	 * @param xVel
+	 * @param yVel
 	 * @return
 	 */
-	public static float calcRotation(int x, int y) {
-		return CIRCLE_DEGREES - (float) MathUtils.atan2(x, y) * MathUtils.radiansToDegrees;
+	public static float calcRotation(float xVel, float yVel) {
+		return CIRCLE_DEGREES - (float) MathUtils.atan2(xVel, yVel) * MathUtils.radiansToDegrees;
 	}
 	
 	/**
