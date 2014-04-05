@@ -46,10 +46,14 @@ public class Constants {
 		
 		public static final int BASE_DAMAGE = 10;
 		public static final int BASE_PART_LVL = 1;
+		public static final float FIRE_RATE = 1;
 	}
 	
 	public static class Shot { 
 		public static final int WIDTH = 18;
 		public static final int HEIGHT = 18;
+		
+		public static final String SHOT_NAME = "Shot";
+		public static final float VEL = 300f;
 	}
 }
