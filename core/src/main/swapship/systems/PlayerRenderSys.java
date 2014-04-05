@@ -59,17 +59,17 @@ public class PlayerRenderSys extends EntityProcessingSystem {
 		// Draw the parts!
 		// Start at the bottom because y goes upward
 		game.batch.setColor(scc.botColor);
-		game.batch.draw(botTr, sc.x, y, sc.width / 2, Constants.Player.SHIP_PART_HEIGHT / 2,
+		game.batch.draw(botTr, sc.x, y, sc.width / 2, sc.height / 2,
 				sc.width, Constants.Player.SHIP_PART_HEIGHT, 1f, 1f, 0);
 		y += Constants.Player.SHIP_PART_HEIGHT;
 		
 		game.batch.setColor(scc.midColor);
-		game.batch.draw(midTr, sc.x, y, sc.width / 2, Constants.Player.SHIP_PART_HEIGHT / 2,
+		game.batch.draw(midTr, sc.x, y, sc.width / 2, sc.height / 2,
 				sc.width, Constants.Player.SHIP_PART_HEIGHT, 1f, 1f, 0);
 		y += Constants.Player.SHIP_PART_HEIGHT;
 		
 		game.batch.setColor(scc.topColor);
-		game.batch.draw(topTr, sc.x, y, sc.width / 2, Constants.Player.SHIP_PART_HEIGHT / 2,
+		game.batch.draw(topTr, sc.x, y, sc.width / 2, sc.height / 2,
 				sc.width, Constants.Player.SHIP_PART_HEIGHT, 1f, 1f, 0);
 	}
 }
