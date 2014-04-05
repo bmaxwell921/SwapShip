@@ -1,5 +1,6 @@
 package main.swapship;
 
+import main.swapship.common.Constants;
 import main.swapship.screens.GameScreen;
 import main.swapship.util.AssetUtil;
 
@@ -17,6 +18,7 @@ public class SwapShipGame extends Game {
 
 	@Override
 	public void create() {
+		Constants.Player.MAX_Y = Gdx.graphics.getHeight() / 3;
 		batch = new SpriteBatch();
 		titleFont = new BitmapFont();
 		titleFont.scale(2f);
