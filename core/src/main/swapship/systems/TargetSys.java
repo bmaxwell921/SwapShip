@@ -38,8 +38,12 @@ public class TargetSys extends EntityProcessingSystem {
 		Entity target = tc.target;
 		
 		// If the target was already destroyed, get a new one
-		if (!target.isActive()) {
+		if (target == null || !target.isActive()) {
 			target = TargetUtil.findRandTarget(world, tc.targetGroup);
+		}
+		
+		if (target == null) {
+			return;
 		}
 		
 		SpatialComp tsc = scm.get(target);

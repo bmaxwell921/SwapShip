@@ -7,6 +7,7 @@ import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.player.SpecialComp;
 import main.swapship.factories.EntityFactory;
 import main.swapship.util.InputProcessingUtil;
+import main.swapship.util.TargetUtil;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -80,14 +81,14 @@ public class InputSys extends EntityProcessingSystem {
 		
 		if (touchPoint.x < Gdx.graphics.getWidth() / 2) {
 			// Too bad, no special left
-			if (sc.defensiveCount <= 0) {
+			if (sc.defensiveCount <= 0 || !TargetUtil.existsTargets(world, Constants.Groups.ENEMY)) {
 				return;
 			}
 			// Create defensive special
 			
 			--sc.defensiveCount;
 		} else {
-			if (sc.offensiveCount <= 0) {
+			if (sc.offensiveCount <= 0 || !TargetUtil.existsTargets(world, Constants.Groups.ENEMY)) {
 				return;
 			}
 			
