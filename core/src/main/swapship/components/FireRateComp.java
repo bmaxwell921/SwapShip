@@ -1,5 +1,6 @@
 package main.swapship.components;
 
+
 /**
  * Component for ships 
  * @author Brandon

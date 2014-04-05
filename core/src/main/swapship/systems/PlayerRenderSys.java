@@ -2,9 +2,9 @@ package main.swapship.systems;
 
 import main.swapship.SwapShipGame;
 import main.swapship.common.Constants;
-import main.swapship.components.ShipColorsComp;
-import main.swapship.components.ShipSpritesComp;
 import main.swapship.components.SpatialComp;
+import main.swapship.components.player.ShipColorsComp;
+import main.swapship.components.player.ShipSpritesComp;
 import main.swapship.util.AssetUtil;
 
 import com.artemis.ComponentMapper;

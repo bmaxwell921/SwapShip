@@ -1,8 +1,8 @@
 package main.swapship.systems;
 
 import main.swapship.SwapShipGame;
-import main.swapship.components.SingleSpriteComp;
 import main.swapship.components.SpatialComp;
+import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.util.AssetUtil;
 
 import com.artemis.ComponentMapper;

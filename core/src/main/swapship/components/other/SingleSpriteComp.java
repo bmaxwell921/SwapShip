@@ -1,4 +1,4 @@
-package main.swapship.components;
+package main.swapship.components.other;
 
 import com.artemis.Component;
 import com.badlogic.gdx.graphics.Color;

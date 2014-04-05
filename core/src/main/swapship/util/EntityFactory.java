@@ -4,12 +4,12 @@ import main.swapship.common.Constants;
 import main.swapship.components.DamageComp;
 import main.swapship.components.FireRateComp;
 import main.swapship.components.LevelComp;
-import main.swapship.components.ShipColorsComp;
-import main.swapship.components.ShipSpritesComp;
-import main.swapship.components.SingleSpriteComp;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.dist.PlayerComp;
+import main.swapship.components.other.SingleSpriteComp;
+import main.swapship.components.player.ShipColorsComp;
+import main.swapship.components.player.ShipSpritesComp;
 
 import com.artemis.Entity;
 import com.artemis.World;
