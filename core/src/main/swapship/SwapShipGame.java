@@ -1,27 +1,37 @@
 package main.swapship;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import main.swapship.screens.GameScreen;
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class SwapShipGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
+public class SwapShipGame extends Game {
+
+	public SpriteBatch batch;
+	public BitmapFont titleFont;
+	public BitmapFont optionFont;
+
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		titleFont = new BitmapFont();
+		titleFont.scale(2f);
+		optionFont = new BitmapFont();
+		this.setScreen(new GameScreen(this));
 	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	public void render() {
 		batch.begin();
-		batch.draw(img, 0, 0);
+		super.render();
 		batch.end();
+	}
+
+	@Override
+	public void dispose() {
+		batch.dispose();
+		titleFont.dispose();
+		optionFont.dispose();
 	}
 }
