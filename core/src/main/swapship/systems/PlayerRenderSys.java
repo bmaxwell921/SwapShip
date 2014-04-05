@@ -54,22 +54,19 @@ public class PlayerRenderSys extends EntityProcessingSystem {
 		TextureRegion botTr = AssetUtil.getInstance().getTexture(ssc.botName);
 		
 		game.batch.setProjectionMatrix(camera.combined);
-		float rotation = VectorUtil.calcRotation(vc.xVel, vc.yVel); // TODO figure out how to do this properly?
-		float y = sc.y;
+		float rotation = VectorUtil.calcRotation(vc.xVel, vc.yVel);
 		// Draw the parts!
 		// Start at the bottom because y goes upward
 		game.batch.setColor(scc.botColor);
-		game.batch.draw(botTr, sc.x, y, sc.width / 2, sc.height / 2,
-				sc.width, Constants.Player.SHIP_PART_HEIGHT, 1f, 1f, 0);
-		y += Constants.Player.SHIP_PART_HEIGHT;
+		game.batch.draw(botTr, sc.x, sc.y, sc.width / 2, sc.height / 2,
+				sc.width, sc.height, 1f, 1f, rotation);
 		
 		game.batch.setColor(scc.midColor);
-		game.batch.draw(midTr, sc.x, y, sc.width / 2, sc.height / 2,
-				sc.width, Constants.Player.SHIP_PART_HEIGHT, 1f, 1f, 0);
-		y += Constants.Player.SHIP_PART_HEIGHT;
+		game.batch.draw(midTr, sc.x, sc.y, sc.width / 2, sc.height / 2,
+				sc.width, sc.height, 1f, 1f, rotation);
 		
 		game.batch.setColor(scc.topColor);
-		game.batch.draw(topTr, sc.x, y, sc.width / 2, sc.height / 2,
-				sc.width, Constants.Player.SHIP_PART_HEIGHT, 1f, 1f, 0);
+		game.batch.draw(topTr, sc.x, sc.y, sc.width / 2, sc.height / 2,
+				sc.width, sc.height, 1f, 1f, rotation);
 	}
 }
