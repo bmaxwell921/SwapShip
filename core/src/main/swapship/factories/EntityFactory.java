@@ -89,6 +89,9 @@ public class EntityFactory {
 		// Testing
 		spc.defensive = DefensiveSpecialType.SHIELD;
 		spc.defensiveCount = Integer.MAX_VALUE;
+		
+		spc.offensive = OffensiveSpecialType.BEAM;
+		spc.offensiveCount = Integer.MAX_VALUE;
 		e.addComponent(spc);
 
 		HealthComp hc = world.createComponent(HealthComp.class);
