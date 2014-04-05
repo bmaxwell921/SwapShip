@@ -74,5 +74,7 @@ public class Constants {
 		public static final int HEIGHT = 45;
 		public static final int SPAWN_COUNT = 3;
 		public static final String NAME = "Missile";
+		
+		public static final float VEL = 300f;
 	}
 }

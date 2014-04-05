@@ -65,7 +65,9 @@ public class InputSys extends EntityProcessingSystem {
 			yRate = -1;
 		}
 		
-		vcm.get(e).setValues(xRate * Constants.Player.MAX_MOVE, yRate * Constants.Player.MAX_MOVE);
+		VelocityComp vc = vcm.get(e);
+		vc.setXVel(xRate * Constants.Player.MAX_MOVE);
+		vc.setYVel(yRate * Constants.Player.MAX_MOVE);
 	}
 	
 	private void checkSpecial(Entity e) {
@@ -90,7 +92,7 @@ public class InputSys extends EntityProcessingSystem {
 			}
 			
 			// Create offensive special
-			EntityFactory.createOffensiveSpecial(world, sc.offensive, spc.x, spc.y + spc.height);
+			EntityFactory.createOffensiveSpecial(world, sc.offensive, spc.x + spc.width / 2, spc.y + spc.height);
 			--sc.offensiveCount;
 		}
 	}

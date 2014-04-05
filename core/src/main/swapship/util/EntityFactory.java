@@ -53,7 +53,8 @@ public class EntityFactory {
 
 		// Movement
 		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(Constants.Player.START_VEL, Constants.Player.START_VEL);
+		vc.setValues(Constants.Player.START_VEL, Constants.Player.START_VEL,
+				Constants.Player.MAX_MOVE);
 		e.addComponent(vc);
 
 		e.addComponent(world.createComponent(PlayerComp.class));
@@ -77,7 +78,7 @@ public class EntityFactory {
 		SpecialComp spc = world.createComponent(SpecialComp.class);
 		// Testing
 		spc.offensive = OffensiveSpecialType.MISSILE;
-		spc.offensiveCount = 1;
+		spc.offensiveCount = 5;
 		e.addComponent(spc);
 
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
@@ -87,37 +88,41 @@ public class EntityFactory {
 
 	public static void createEnemy(World world) {
 		Entity e = world.createEntity();
-		
+
 		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(MathUtils.random(0, Gdx.graphics.getWidth() - Constants.SHIP_WIDTH), 
-				Gdx.graphics.getHeight(), Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT);
+		sc.setValues(
+				MathUtils.random(0, Gdx.graphics.getWidth()
+						- Constants.SHIP_WIDTH), Gdx.graphics.getHeight(),
+				Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT);
 		e.addComponent(sc);
-		
+
 		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(0, -Constants.Enemy.MAX_MOVE);
+		vc.setValues(0, -Constants.Enemy.MAX_MOVE, Constants.Enemy.MAX_MOVE);
 		e.addComponent(vc);
-		
+
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
-		ssc.name = Constants.Enemy.NAMES[MathUtils.random(Constants.Enemy.NAMES.length - 1)];
-		ssc.tint = Constants.Enemy.COLORS[MathUtils.random(Constants.Enemy.COLORS.length - 1)];
+		ssc.name = Constants.Enemy.NAMES[MathUtils
+				.random(Constants.Enemy.NAMES.length - 1)];
+		ssc.tint = Constants.Enemy.COLORS[MathUtils
+				.random(Constants.Enemy.COLORS.length - 1)];
 		e.addComponent(ssc);
-		
+
 		DamageComp dc = world.createComponent(DamageComp.class);
 		dc.damage = Constants.Enemy.BASE_DAMAGE;
 		e.addComponent(dc);
-		
+
 		FireRateComp frc = world.createComponent(FireRateComp.class);
 		frc.setValues(Constants.Enemy.FIRE_RATE);
 		e.addComponent(frc);
-		
+
 		LevelComp lc = world.createComponent(LevelComp.class);
 		lc.setValues(0, 0, 1);
 		e.addComponent(lc);
-		
+
 		world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMY);
 		e.addToWorld();
 	}
-	
+
 	public static void createShot(World world, float x, float y, int damage,
 			Color tint, boolean playerShot) {
 		Entity e = world.createEntity();
@@ -155,7 +160,8 @@ public class EntityFactory {
 			Array<Entity> targets = findTargets(world, sourceX, sourceY);
 			// Create a bunch of missiles
 			for (Entity target : targets) {
-				createMissile(world, sourceX, sourceY, target.getComponent(SpatialComp.class));
+				createMissile(world, sourceX - Constants.Missile.WIDTH / 2,
+						sourceY, target.getComponent(SpatialComp.class));
 			}
 			return;
 		}
@@ -174,13 +180,13 @@ public class EntityFactory {
 		e.addComponent(dc);
 
 		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(0, 0);
+		vc.setValues(0, 0, Constants.Missile.VEL);
 		e.addComponent(vc);
 
 		TargetComp tc = world.createComponent(TargetComp.class);
 		tc.target = target;
 		e.addComponent(tc);
-		
+
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
 		ssc.name = Constants.Missile.NAME;
 		ssc.tint = Color.WHITE;
@@ -193,7 +199,9 @@ public class EntityFactory {
 
 	private static Array<Entity> findTargets(World world, float sourceX,
 			float sourceY) {
-		return RandUtil.chooseNumFrom(Constants.Missile.SPAWN_COUNT, world.getManager(GroupManager.class)
-				.getEntities(Constants.Groups.ENEMY));
+		return RandUtil.chooseNumFrom(
+				Constants.Missile.SPAWN_COUNT,
+				world.getManager(GroupManager.class).getEntities(
+						Constants.Groups.ENEMY));
 	}
 }

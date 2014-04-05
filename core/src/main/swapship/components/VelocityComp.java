@@ -7,9 +7,12 @@ public class VelocityComp implements Component {
 	public float xVel;
 	public float yVel;
 	
-	public void setValues(float xVel, float yVel) {
+	public float maxVel;
+	
+	public void setValues(float xVel, float yVel, float maxVel) {
 		this.xVel = xVel;
 		this.yVel = yVel;
+		this.maxVel = maxVel;
 	}
 	
 	public void setXVel(float xVel) {
@@ -22,6 +25,6 @@ public class VelocityComp implements Component {
 	
 	@Override
 	public void reset() {
-		this.xVel = yVel = 0;
+		this.xVel = yVel = maxVel = 0;
 	}
 }
