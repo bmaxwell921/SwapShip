@@ -9,8 +9,8 @@ import com.artemis.Component;
  */
 public abstract class TimerComp implements Component {
 
-	public int startTime;
-	public int timeLeft;
+	public float startTime;
+	public float timeLeft;
 	
 	@Override
 	public void reset() {
