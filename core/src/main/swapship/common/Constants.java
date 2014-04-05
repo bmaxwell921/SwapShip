@@ -43,5 +43,8 @@ public class Constants {
 		
 		public static final int MIN_Y = 20;
 		public static final int MAX_Y = 350;
+		
+		public static final int BASE_DAMAGE = 10;
+		public static final int BASE_PART_LVL = 1;
 	}
 }
