@@ -1,10 +1,13 @@
 package main.swapship;
 
 import main.swapship.screens.GameScreen;
+import main.swapship.util.AssetUtil;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class SwapShipGame extends Game {
 
@@ -19,6 +22,8 @@ public class SwapShipGame extends Game {
 		titleFont.scale(2f);
 		optionFont = new BitmapFont();
 		this.setScreen(new GameScreen(this));
+		
+		AssetUtil.getInstance().setTextureAtlas(new TextureAtlas(Gdx.files.internal("gameImages.atlas")));
 	}
 
 	@Override
