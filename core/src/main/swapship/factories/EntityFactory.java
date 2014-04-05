@@ -250,7 +250,9 @@ public class EntityFactory {
 			e.addComponent(hc);
 			
 			// Add the player comp so it moves as we move
-			e.addComponent(world.createComponent(BeamComp.class));
+			BeamComp bc = world.createComponent(BeamComp.class);
+			bc.num = i;
+			e.addComponent(bc);
 			
 			TimeDelComp tdc = world.createComponent(TimeDelComp.class);
 			tdc.setValues(Constants.Beam.TIME_OUT);
