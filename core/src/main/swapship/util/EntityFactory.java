@@ -4,9 +4,11 @@ import main.swapship.common.Constants;
 import main.swapship.common.OffensiveSpecialType;
 import main.swapship.components.DamageComp;
 import main.swapship.components.FireRateComp;
+import main.swapship.components.HealthComp;
 import main.swapship.components.LevelComp;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.TargetComp;
+import main.swapship.components.TimeDelComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.other.SingleSpriteComp;
@@ -80,6 +82,10 @@ public class EntityFactory {
 		spc.offensive = OffensiveSpecialType.MISSILE;
 		spc.offensiveCount = 5;
 		e.addComponent(spc);
+		
+		HealthComp hc = world.createComponent(HealthComp.class);
+		hc.health = Constants.Player.BASE_HEALTH;
+		e.addComponent(hc);
 
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
 		e.addToWorld();
@@ -118,6 +124,10 @@ public class EntityFactory {
 		LevelComp lc = world.createComponent(LevelComp.class);
 		lc.setValues(0, 0, 1);
 		e.addComponent(lc);
+		
+		HealthComp hc = world.createComponent(HealthComp.class);
+		hc.health = Constants.Enemy.BASE_HEALTH;
+		e.addComponent(hc);
 
 		world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMY);
 		e.addToWorld();
@@ -195,10 +205,33 @@ public class EntityFactory {
 		e.addComponent(ssc);
 
 		world.getManager(GroupManager.class).add(e,
-				Constants.Groups.PLAYER_ATTACK);
+				Constants.Groups.PLAYER_ATTACK); 
 		e.addToWorld();
 	}
 
+	public static void createExplosion(World world, float x, float y, float xVel, float yVel) {
+		Entity e = world.createEntity();
+		
+		SpatialComp sc = world.createComponent(SpatialComp.class);
+		sc.setValues(x, y, Constants.Explosion.WIDTH, Constants.Explosion.HEIGHT);
+		e.addComponent(sc);
+		
+		VelocityComp vc = world.createComponent(VelocityComp.class);
+		vc.setValues(xVel * Constants.Explosion.VEL_PERC, yVel * Constants.Explosion.VEL_PERC, 0);
+		e.addComponent(vc);
+		
+		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
+		ssc.name = Constants.Explosion.NAME;
+		ssc.tint = Color.WHITE;
+		e.addComponent(ssc);
+		
+		TimeDelComp tdc = world.createComponent(TimeDelComp.class);
+		tdc.setValues(Constants.Explosion.LIFE_TIME);
+		e.addComponent(tdc);
+		
+		e.addToWorld();
+	}
+	
 	private static Array<Entity> findTargets(World world, float sourceX,
 			float sourceY) {
 		return RandUtil.chooseNumFrom(

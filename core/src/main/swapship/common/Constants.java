@@ -21,6 +21,8 @@ public class Constants {
 	public static class Groups {
 		public static final String PLAYER = "PLAYER";
 		public static final String PLAYER_ATTACK = "PLAYER_ATTACK";
+		public static final String PLAYER_SPECIAL = "PLAYER_SPECIAL";
+		
 		
 		public static final String ENEMY = "ENEMY";
 		public static final String ENEMY_ATTACK = "ENEMY_ATTACK";
@@ -49,6 +51,8 @@ public class Constants {
 		public static final int BASE_DAMAGE = 10;
 		public static final int BASE_PART_LVL = 1;
 		public static final float FIRE_RATE = 1;
+		
+		public static final int BASE_HEALTH = 100;
 	}
 	
 	public static class Enemy {
@@ -59,6 +63,8 @@ public class Constants {
 		public static final float FIRE_RATE = 2;
 		
 		public static final float MAX_MOVE = 75f;
+		
+		public static final int BASE_HEALTH = 20;
 	}
 	
 	public static class Shot { 
@@ -76,5 +82,16 @@ public class Constants {
 		public static final String NAME = "Missile";
 		
 		public static final float VEL = 300f;
+	}
+	
+	public static class Explosion {
+		public static final int WIDTH = 81;
+		public static final int HEIGHT = 81;
+		
+		public static final String NAME = "Explosion";
+		
+		public static final float LIFE_TIME = 0.5f;
+		
+		public static final float VEL_PERC = 0.35f;
 	}
 }
