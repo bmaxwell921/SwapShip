@@ -24,9 +24,9 @@ public class EntityFactory {
 	public static Entity createPlayer(World world) {
 		Entity e = world.createEntity();
 		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(Gdx.graphics.getWidth() / 2 - Constants.Player.WIDTH / 2,
-				Constants.Player.MIN_Y, Constants.Player.WIDTH,
-				Constants.Player.HEIGHT);
+		sc.setValues(Gdx.graphics.getWidth() / 2 - Constants.SHIP_WIDTH / 2,
+				Constants.Player.MIN_Y, Constants.SHIP_WIDTH,
+				Constants.SHIP_HEIGHT);
 		e.addComponent(sc);
 
 		ShipSpritesComp ssc = world.createComponent(ShipSpritesComp.class);
@@ -54,6 +54,11 @@ public class EntityFactory {
 		e.addComponent(lc);
 
 		return e;
+	}
+	
+	public static void createShot(World world, int x, int y, boolean playerShot) {
+		Entity e = world.createEntity();
+		SpatialComp sc = world.createComponent(SpatialComp.class);
 	}
 
 }

@@ -7,6 +7,9 @@ public class Constants {
 	public static final int SCREEN_WIDTH = 640;
 	public static final int SCREEN_HEIGHT = 800;
 	
+	public static final int SHIP_WIDTH = 81;
+	public static final int SHIP_HEIGHT = 81;
+	
 	public static class MainScreen {
 		public static final String PLAY = "PLAY";
 		public static final String SETTINGS = "SETTINGS";
@@ -21,10 +24,7 @@ public class Constants {
 		public static final String ENEMY_ATTACK = "ENEMY_ATTACK";
 	}
 	
-	public static class Player {
-		public static final int WIDTH = 81;
-		public static final int HEIGHT = 81;
-		
+	public static class Player {		
 		public static final String ARTEMIS_TOP = "Artemis_Top";
 		public static final String ARTEMIS_MID = "Artemis_Mid";
 		public static final String ARTEMIS_BOT = "Artemis_Bot";
@@ -46,5 +46,10 @@ public class Constants {
 		
 		public static final int BASE_DAMAGE = 10;
 		public static final int BASE_PART_LVL = 1;
+	}
+	
+	public static class Shot { 
+		public static final int WIDTH = 18;
+		public static final int HEIGHT = 18;
 	}
 }
