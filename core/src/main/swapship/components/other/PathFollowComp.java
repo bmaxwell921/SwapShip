@@ -12,9 +12,16 @@ import com.badlogic.gdx.utils.Array;
 public class PathFollowComp implements Component {
 
 	public Array<Vector2> path;
+	public int target;
+	
+	public void setValues(Array<Vector2> path) {
+		this.path = path;
+		target = 0;
+	}
 	
 	@Override
 	public void reset() {
 		path = null;
+		target = 0;
 	}
 }
