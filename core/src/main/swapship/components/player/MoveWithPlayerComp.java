@@ -5,8 +5,8 @@ import com.artemis.Entity;
 
 public class MoveWithPlayerComp implements Component {
 
-	public int xDisplace;
-	public int yDispace;
+	public float xDisplace;
+	public float yDispace;
 	
 	@Override
 	public void reset() {
