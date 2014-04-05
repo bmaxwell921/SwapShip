@@ -4,6 +4,7 @@ import main.swapship.SwapShipGame;
 import main.swapship.common.Constants;
 import main.swapship.components.other.SpawnerComp;
 import main.swapship.factories.EntityFactory;
+import main.swapship.systems.BeamMoveSys;
 import main.swapship.systems.CollisionSys;
 import main.swapship.systems.CullingSys;
 import main.swapship.systems.EnemySpawnSys;
@@ -44,12 +45,14 @@ public class GameScreen implements Screen {
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		createWorld();
-		createPlayer();
 		createEnemySpawner();
 	}
 	
 	private void createWorld() {
 		world = new World();
+		world.setManager(new GroupManager());
+		
+		createPlayer();
 		world.setSystem(new PlayerRenderSys(game, camera));
 		world.setSystem(new SingleSpriteRenderSys(game, camera));
 		world.setSystem(new MovementSys());
@@ -62,8 +65,7 @@ public class GameScreen implements Screen {
 		world.setSystem(new PathFollowSys());
 		world.setSystem(new CullingSys());
 		world.setSystem(new PlayerBoundSys());
-		
-		world.setManager(new GroupManager());
+		world.setSystem(new BeamMoveSys(player));
 		world.initialize();
 	}
 	

@@ -12,6 +12,7 @@ import com.artemis.Entity;
 import com.artemis.Filter;
 import com.artemis.managers.GroupManager;
 import com.artemis.systems.EntitySystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -39,7 +40,7 @@ public class CollisionSys extends EntitySystem {
 	private Rectangle twoRect;
 
 	public CollisionSys() {
-		super(Filter.allComponents(SpatialComp.class));
+		super(Filter.allComponents(SpatialComp.class, DamageComp.class));
 		oneRect = new Rectangle();
 		twoRect = new Rectangle();
 	}
@@ -74,7 +75,13 @@ public class CollisionSys extends EntitySystem {
 									enemyLoc.y, enemyVel.xVel, enemyVel.yVel);
 							two.deleteFromWorld();
 						}
-						one.deleteFromWorld(); // Remove the bullet
+						HealthComp hc = hcm.getSafe(one);
+						// If it has no health, it's a bullet so remove
+						if (hc == null) {
+							one.deleteFromWorld(); // Remove the bullet
+						}
+						
+						// Otherwise it's some kind of special so let it go
 					}
 				}));
 		collisionGroups.add(new CollisionGroup(Constants.Groups.ENEMY_ATTACK,
@@ -123,7 +130,7 @@ public class CollisionSys extends EntitySystem {
 						SpatialComp enemyLoc = scm.get(one);
 						EntityFactory.createExplosion(world, enemyLoc.x,
 								enemyLoc.y, enemyVel.xVel, enemyVel.yVel);
-						one.deleteFromWorld(); // Remove the bullet
+						one.deleteFromWorld(); // Remove the enemy
 					}
 
 				}));

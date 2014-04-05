@@ -3,6 +3,7 @@ package main.swapship.systems;
 import main.swapship.common.Constants;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
+import main.swapship.components.diff.BeamComp;
 import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.player.SpecialComp;
 import main.swapship.factories.EntityFactory;
@@ -29,7 +30,8 @@ public class InputSys extends EntityProcessingSystem {
 	// field here, so we don't create lots of data
 	private Vector3 touchPoint;
 	public InputSys(OrthographicCamera camera) {
-		super(Filter.allComponents(VelocityComp.class, PlayerComp.class));
+		// Beam and Player should move the same way
+		super(Filter.allComponents(VelocityComp.class).any(PlayerComp.class, BeamComp.class));
 		touchPoint = Vector3.Zero;
 		this.camera = camera;
 	}

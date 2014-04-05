@@ -3,6 +3,7 @@ package main.swapship.systems;
 import main.swapship.SwapShipGame;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
+import main.swapship.components.diff.BeamComp;
 import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.util.AssetUtil;
 import main.swapship.util.VectorUtil;
@@ -40,11 +41,11 @@ public class SingleSpriteRenderSys extends EntityProcessingSystem {
 	@Override
 	public void process(Entity e) {
 		SpatialComp sc = scm.get(e);
-		VelocityComp vc = vcm.get(e);
+		VelocityComp vc = vcm.getSafe(e);
 		
 		SingleSpriteComp ssc = sscm.get(e);
 
-		float rotation = VectorUtil.calcRotation(vc.xVel, vc.yVel);
+		float rotation = e.getComponent(BeamComp.class) == null ? VectorUtil.calcRotation(vc.xVel, vc.yVel) : 0;
 		TextureRegion tr = AssetUtil.getInstance().getTexture(ssc.name);
 		game.batch.setProjectionMatrix(camera.combined);
 
