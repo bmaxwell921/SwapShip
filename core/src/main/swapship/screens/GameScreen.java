@@ -3,6 +3,7 @@ package main.swapship.screens;
 import main.swapship.SwapShipGame;
 import main.swapship.common.Constants;
 import main.swapship.components.other.SpawnerComp;
+import main.swapship.systems.CollisionSys;
 import main.swapship.systems.EnemySpawnSys;
 import main.swapship.systems.InputSys;
 import main.swapship.systems.MovementSys;
@@ -10,6 +11,7 @@ import main.swapship.systems.PlayerRenderSys;
 import main.swapship.systems.ShotSys;
 import main.swapship.systems.SingleSpriteRenderSys;
 import main.swapship.systems.TargetSys;
+import main.swapship.systems.TimeDelSys;
 import main.swapship.util.EntityFactory;
 
 import com.artemis.Entity;
@@ -52,6 +54,8 @@ public class GameScreen implements Screen {
 		world.setSystem(new ShotSys());
 		world.setSystem(new EnemySpawnSys());
 		world.setSystem(new TargetSys());
+		world.setSystem(new CollisionSys());
+		world.setSystem(new TimeDelSys());
 		
 		world.setManager(new GroupManager());
 		world.initialize();
