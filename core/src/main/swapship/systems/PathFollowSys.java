@@ -46,7 +46,6 @@ public class PathFollowSys extends EntityProcessingSystem {
 			// They've run out of things to follow, so it must be off the screen.
 			if (pfc.path.size <= pfc.target) {
 				e.deleteFromWorld();
-				Gdx.app.log("CULLING", "Deleted entity at the end of path");
 				return;
 			}
 			ptc.target = pfc.path.get(pfc.target);
