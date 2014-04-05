@@ -10,7 +10,7 @@ public class Constants {
 	public static final int SHIP_WIDTH = 81;
 	public static final int SHIP_HEIGHT = 81;
 	
-	public static final float SPAWN_RATE = 1f;
+	public static final float SPAWN_RATE = .1f;
 	
 	public static class MainScreen {
 		public static final String PLAY = "PLAY";
@@ -46,7 +46,7 @@ public class Constants {
 		public static final float MAX_MOVE = 150f;
 		
 		public static final int MIN_Y = 20;
-		public static final int MAX_Y = 350;
+		public static int MAX_Y = 350;
 		
 		public static final int BASE_DAMAGE = 10;
 		public static final int BASE_PART_LVL = 1;
