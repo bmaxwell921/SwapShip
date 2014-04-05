@@ -7,6 +7,8 @@ public class VectorUtil {
 
 	public static final int CIRCLE_DEGREES = 360;
 	
+	private static final Vector2 use = Vector2.Zero;
+	
 	/**
 	 * Calculates the rotation from vertical for the given vector
 	 * @param xVel
@@ -28,5 +30,10 @@ public class VectorUtil {
 	 */
 	public static Vector2 calcDirection(float srcX, float srcY, float targetX, float targetY) {
 		return new Vector2(targetX, targetY).sub(srcX, srcY).nor();
+	}
+	
+	public static float dist(float srcX, float srcY, Vector2 target) {
+		return use.set(srcX, srcY).dst(target);
+		
 	}
 }
