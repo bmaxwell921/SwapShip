@@ -160,9 +160,10 @@ public class EntityFactory {
 			Array<Entity> targets = findTargets(world, sourceX, sourceY);
 			// Create a bunch of missiles
 			for (Entity target : targets) {
-				// TODO this isn't spawning in the center. Also, they aren't moving
-				createMissile(world, sourceX - Constants.Missile.WIDTH / 2,
-						sourceY, target.getComponent(SpatialComp.class));
+				// TODO this isn't spawning in the center. Also, they aren't
+				// moving
+				createMissile(world, sourceX, sourceY,
+						target.getComponent(SpatialComp.class));
 			}
 			return;
 		}

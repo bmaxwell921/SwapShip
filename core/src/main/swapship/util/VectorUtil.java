@@ -27,6 +27,6 @@ public class VectorUtil {
 	 * @return
 	 */
 	public static Vector2 calcDirection(float srcX, float srcY, float targetX, float targetY) {
-		return new Vector2(srcX, srcY).sub(targetX, targetY).nor();
+		return new Vector2(targetX, targetY).sub(srcX, srcY).nor();
 	}
 }

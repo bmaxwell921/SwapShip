@@ -23,6 +23,7 @@ public class TargetSys extends EntityProcessingSystem {
 	
 	@Override
 	public void initialize() {
+		scm = world.getMapper(SpatialComp.class);
 		tcm = world.getMapper(TargetComp.class);
 		vcm = world.getMapper(VelocityComp.class);
 	}
