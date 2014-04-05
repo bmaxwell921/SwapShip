@@ -6,6 +6,7 @@ import main.swapship.components.DamageComp;
 import main.swapship.components.FireRateComp;
 import main.swapship.components.LevelComp;
 import main.swapship.components.SpatialComp;
+import main.swapship.components.TargetComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.dist.PlayerComp;
 import main.swapship.components.other.SingleSpriteComp;
@@ -18,6 +19,8 @@ import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 
 public class EntityFactory {
 
@@ -29,7 +32,7 @@ public class EntityFactory {
 	 */
 	public static Entity createPlayer(World world) {
 		Entity e = world.createEntity();
-		
+
 		// Location
 		SpatialComp sc = world.createComponent(SpatialComp.class);
 		sc.setValues(Gdx.graphics.getWidth() / 2 - Constants.SHIP_WIDTH / 2,
@@ -61,17 +64,17 @@ public class EntityFactory {
 				Constants.Player.BASE_PART_LVL, Constants.Player.BASE_PART_LVL,
 				Constants.Player.BASE_DAMAGE);
 		e.addComponent(lc);
-		
+
 		// Attacking
 		DamageComp dc = world.createComponent(DamageComp.class);
 		dc.damage = lc.calcDamage(Constants.Player.BASE_DAMAGE);
 		e.addComponent(dc);
-		
+
 		FireRateComp frc = world.createComponent(FireRateComp.class);
 		frc.startTime = Constants.Player.FIRE_RATE;
 		frc.timeLeft = 0;
 		e.addComponent(frc);
-		
+
 		SpecialComp spc = world.createComponent(SpecialComp.class);
 		e.addComponent(spc);
 
@@ -80,8 +83,8 @@ public class EntityFactory {
 		return e;
 	}
 
-	public static void createShot(World world, float x, float y, int damage, Color tint,
-			boolean playerShot) {
+	public static void createShot(World world, float x, float y, int damage,
+			Color tint, boolean playerShot) {
 		Entity e = world.createEntity();
 		SpatialComp sc = world.createComponent(SpatialComp.class);
 		sc.setValues(x, y, Constants.Shot.WIDTH, Constants.Shot.HEIGHT);
@@ -95,14 +98,67 @@ public class EntityFactory {
 		VelocityComp vc = world.createComponent(VelocityComp.class);
 		vc.yVel = Constants.Shot.VEL * ((playerShot) ? 1 : -1);
 		e.addComponent(vc);
-		
+
 		DamageComp dc = world.createComponent(DamageComp.class);
 		dc.damage = damage;
 		e.addComponent(dc);
 
-		world.getManager(GroupManager.class).add(e, playerShot ? Constants.Groups.PLAYER_ATTACK
+		world.getManager(GroupManager.class).add(
+				e,
+				playerShot ? Constants.Groups.PLAYER_ATTACK
 						: Constants.Groups.ENEMY_ATTACK);
 		e.addToWorld();
 	}
 
+	public static void createOffensiveSpecial(World world,
+			OffensiveSpecialType type, float sourceX, float sourceY) {
+		if (type == OffensiveSpecialType.NONE) {
+			return;
+		}
+
+		if (type == OffensiveSpecialType.MISSILE) {
+			Array<Entity> targets = findTargets(world, sourceX, sourceY);
+			// Create a bunch of missiles
+			for (Entity target : targets) {
+				createMissile(world, sourceX, sourceY, target.getComponent(SpatialComp.class));
+			}
+			return;
+		}
+	}
+
+	private static void createMissile(World world, float sourceX,
+			float sourceY, SpatialComp target) {
+		Entity e = world.createEntity();
+		SpatialComp sc = world.createComponent(SpatialComp.class);
+		sc.setValues(sourceX - Constants.Missile.WIDTH / 2, sourceY,
+				Constants.Missile.WIDTH, Constants.Missile.HEIGHT);
+		e.addComponent(sc);
+
+		DamageComp dc = world.createComponent(DamageComp.class);
+		dc.damage = Integer.MAX_VALUE; // Max Value so it's an insta-kill
+		e.addComponent(dc);
+
+		VelocityComp vc = world.createComponent(VelocityComp.class);
+		vc.setValues(0, 0);
+		e.addComponent(vc);
+
+		TargetComp tc = world.createComponent(TargetComp.class);
+		tc.target = target;
+		e.addComponent(tc);
+		
+		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
+		ssc.name = Constants.Missile.NAME;
+		ssc.tint = Color.CLEAR;
+		e.addComponent(ssc);
+
+		world.getManager(GroupManager.class).add(e,
+				Constants.Groups.PLAYER_ATTACK);
+		e.addToWorld();
+	}
+
+	private static Array<Entity> findTargets(World world, float sourceX,
+			float sourceY) {
+		return RandUtil.chooseNumFrom(Constants.Missile.SPAWN_COUNT, world.getManager(GroupManager.class)
+				.getEntities(Constants.Groups.ENEMY));
+	}
 }

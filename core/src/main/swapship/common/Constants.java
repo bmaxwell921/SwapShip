@@ -10,6 +10,8 @@ public class Constants {
 	public static final int SHIP_WIDTH = 81;
 	public static final int SHIP_HEIGHT = 81;
 	
+	public static final int SPAWN_RATE = 2;
+	
 	public static class MainScreen {
 		public static final String PLAY = "PLAY";
 		public static final String SETTINGS = "SETTINGS";
@@ -55,5 +57,12 @@ public class Constants {
 		
 		public static final String SHOT_NAME = "Shot";
 		public static final float VEL = 300f;
+	}
+	
+	public static class Missile {
+		public static final int WIDTH = 45;
+		public static final int HEIGHT = 45;
+		public static final int SPAWN_COUNT = 3;
+		public static final String NAME = "Missile";
 	}
 }
