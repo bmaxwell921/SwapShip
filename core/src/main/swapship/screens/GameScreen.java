@@ -1,6 +1,9 @@
 package main.swapship.screens;
 
 import main.swapship.SwapShipGame;
+import main.swapship.common.Constants;
+import main.swapship.components.other.SpawnerComp;
+import main.swapship.systems.EnemySpawnSys;
 import main.swapship.systems.InputSys;
 import main.swapship.systems.MovementSys;
 import main.swapship.systems.PlayerRenderSys;
@@ -36,6 +39,7 @@ public class GameScreen implements Screen {
 		
 		createWorld();
 		createPlayer();
+		createEnemySpawner();
 	}
 	
 	private void createWorld() {
@@ -45,12 +49,23 @@ public class GameScreen implements Screen {
 		world.setSystem(new MovementSys());
 		world.setSystem(new InputSys(camera));
 		world.setSystem(new ShotSys());
+		world.setSystem(new EnemySpawnSys());
+		
 		world.setManager(new GroupManager());
 		world.initialize();
 	}
 	
 	private void createPlayer() {
 		player = EntityFactory.createPlayer(world);
+	}
+	
+	private void createEnemySpawner() {
+		Entity spawner = world.createEntity();
+		SpawnerComp sc = world.createComponent(SpawnerComp.class);
+		sc.setValues(Constants.SPAWN_RATE);
+		spawner.addComponent(sc);
+		
+		spawner.addToWorld();
 	}
 	
 	@Override

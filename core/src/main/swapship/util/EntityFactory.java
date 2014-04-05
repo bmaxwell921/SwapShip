@@ -61,8 +61,7 @@ public class EntityFactory {
 		// Level
 		LevelComp lc = world.createComponent(LevelComp.class);
 		lc.setValues(Constants.Player.BASE_PART_LVL,
-				Constants.Player.BASE_PART_LVL, Constants.Player.BASE_PART_LVL,
-				Constants.Player.BASE_DAMAGE);
+				Constants.Player.BASE_PART_LVL, Constants.Player.BASE_PART_LVL);
 		e.addComponent(lc);
 
 		// Attacking
@@ -83,6 +82,39 @@ public class EntityFactory {
 		return e;
 	}
 
+	public static void createEnemy(World world) {
+		Entity e = world.createEntity();
+		
+		SpatialComp sc = world.createComponent(SpatialComp.class);
+		sc.setValues(MathUtils.random(0, Gdx.graphics.getWidth() - Constants.SHIP_WIDTH), 
+				Gdx.graphics.getHeight(), Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT);
+		e.addComponent(sc);
+		
+		VelocityComp vc = world.createComponent(VelocityComp.class);
+		vc.setValues(0, -150);
+		e.addComponent(vc);
+		
+		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
+		ssc.name = Constants.Enemy.NAMES[MathUtils.random(Constants.Enemy.NAMES.length - 1)];
+		ssc.tint = Constants.Enemy.COLORS[MathUtils.random(Constants.Enemy.COLORS.length - 1)];
+		e.addComponent(ssc);
+		
+		DamageComp dc = world.createComponent(DamageComp.class);
+		dc.damage = Constants.Enemy.BASE_DAMAGE;
+		e.addComponent(dc);
+		
+		FireRateComp frc = world.createComponent(FireRateComp.class);
+		frc.setValues(Constants.Enemy.FIRE_RATE);
+		e.addComponent(frc);
+		
+		LevelComp lc = world.createComponent(LevelComp.class);
+		lc.setValues(0, 0, 1);
+		e.addComponent(lc);
+		
+		world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMY);
+		e.addToWorld();
+	}
+	
 	public static void createShot(World world, float x, float y, int damage,
 			Color tint, boolean playerShot) {
 		Entity e = world.createEntity();

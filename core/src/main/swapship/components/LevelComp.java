@@ -13,12 +13,11 @@ public class LevelComp implements Component {
 	public int overallLevel;
 	
 	
-	public void setValues(int topLevel, int midLevel, int botLevel, int baseDamage) {
+	public void setValues(int topLevel, int midLevel, int botLevel) {
 		this.topLevel = topLevel;
 		this.midLevel = midLevel;
 		this.botLevel = botLevel;
 		calcOverallLevel();
-		calcDamage(baseDamage);
 	}
 	
 	private void calcOverallLevel() {

@@ -51,6 +51,16 @@ public class Constants {
 		public static final float FIRE_RATE = 1;
 	}
 	
+	public static class Enemy {
+		public static final String[] NAMES = {"Enemy1", "Enemy2"};
+		public static final Color[] COLORS = {Color.RED, Color.GREEN, Color.BLUE};
+		
+		public static final int BASE_DAMAGE = 5;
+		public static final float FIRE_RATE = 2;
+		
+		public static final float MAX_MOVE = 75f;
+	}
+	
 	public static class Shot { 
 		public static final int WIDTH = 18;
 		public static final int HEIGHT = 18;

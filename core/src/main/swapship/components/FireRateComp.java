@@ -7,7 +7,7 @@ package main.swapship.components;
  *
  */
 public class FireRateComp extends TimerComp{
-	public void setValues(int fireRate) {
+	public void setValues(float fireRate) {
 		super.startTime = fireRate;
 		super.timeLeft = 0;
 	}
