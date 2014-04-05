@@ -3,7 +3,7 @@ package main.swapship.systems;
 import main.swapship.common.Constants;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
-import main.swapship.components.dist.PlayerComp;
+import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.player.SpecialComp;
 import main.swapship.util.EntityFactory;
 import main.swapship.util.InputProcessingUtil;

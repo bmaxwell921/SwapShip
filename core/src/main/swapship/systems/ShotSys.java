@@ -4,7 +4,7 @@ import main.swapship.common.Constants;
 import main.swapship.components.DamageComp;
 import main.swapship.components.FireRateComp;
 import main.swapship.components.SpatialComp;
-import main.swapship.components.dist.PlayerComp;
+import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.util.EntityFactory;

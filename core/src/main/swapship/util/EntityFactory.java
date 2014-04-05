@@ -8,7 +8,7 @@ import main.swapship.components.LevelComp;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.TargetComp;
 import main.swapship.components.VelocityComp;
-import main.swapship.components.dist.PlayerComp;
+import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;

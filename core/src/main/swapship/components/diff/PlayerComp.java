@@ -1,4 +1,4 @@
-package main.swapship.components.dist;
+package main.swapship.components.diff;
 
 import com.artemis.Component;
 
