@@ -75,6 +75,9 @@ public class EntityFactory {
 		e.addComponent(frc);
 
 		SpecialComp spc = world.createComponent(SpecialComp.class);
+		// Testing
+		spc.offensive = OffensiveSpecialType.MISSILE;
+		spc.offensiveCount = 1;
 		e.addComponent(spc);
 
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
@@ -91,7 +94,7 @@ public class EntityFactory {
 		e.addComponent(sc);
 		
 		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(0, -150);
+		vc.setValues(0, -Constants.Enemy.MAX_MOVE);
 		e.addComponent(vc);
 		
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
@@ -180,7 +183,7 @@ public class EntityFactory {
 		
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
 		ssc.name = Constants.Missile.NAME;
-		ssc.tint = Color.CLEAR;
+		ssc.tint = Color.WHITE;
 		e.addComponent(ssc);
 
 		world.getManager(GroupManager.class).add(e,

@@ -1,9 +1,11 @@
 package main.swapship.systems;
 
 import main.swapship.common.Constants;
+import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.dist.PlayerComp;
 import main.swapship.components.player.SpecialComp;
+import main.swapship.util.EntityFactory;
 import main.swapship.util.InputProcessingUtil;
 
 import com.artemis.ComponentMapper;
@@ -21,18 +23,21 @@ public class InputSys extends EntityProcessingSystem {
 	private OrthographicCamera camera;
 	private ComponentMapper<VelocityComp> vcm;
 	private ComponentMapper<SpecialComp> scm;
+	private ComponentMapper<SpatialComp> spcm;
 
 	// field here, so we don't create lots of data
 	private Vector3 touchPoint;
 	public InputSys(OrthographicCamera camera) {
 		super(Filter.allComponents(VelocityComp.class, PlayerComp.class));
 		touchPoint = Vector3.Zero;
+		this.camera = camera;
 	}
 	
 	@Override
 	public void initialize() {
 		vcm = world.getMapper(VelocityComp.class);
 		scm = world.getMapper(SpecialComp.class);
+		spcm = world.getMapper(SpatialComp.class);
 	}
 	
 	@Override
@@ -68,6 +73,7 @@ public class InputSys extends EntityProcessingSystem {
 			return;
 		}
 		SpecialComp sc = scm.get(e);
+		SpatialComp spc = spcm.get(e);
 		camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 		
 		if (touchPoint.x < Gdx.graphics.getWidth() / 2) {
@@ -75,12 +81,17 @@ public class InputSys extends EntityProcessingSystem {
 			if (sc.defensiveCount <= 0) {
 				return;
 			}
-			// Create offensive special
+			// Create defensive special
+			
+			--sc.defensiveCount;
 		} else {
 			if (sc.offensiveCount <= 0) {
 				return;
 			}
-			// Create defensive special
+			
+			// Create offensive special
+			EntityFactory.createOffensiveSpecial(world, sc.offensive, spc.x, spc.y + spc.height);
+			--sc.offensiveCount;
 		}
 	}
 }
