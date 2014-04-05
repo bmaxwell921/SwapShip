@@ -14,6 +14,8 @@ public class DesktopLauncher {
 		config.title = "Swap Ship";
 		config.width = Constants.SCREEN_WIDTH;
 		config.height = Constants.SCREEN_HEIGHT;
+		config.y = 0;
+		config.x = 480;
 		new LwjglApplication(new SwapShipGame(), config);
 	}
 	
