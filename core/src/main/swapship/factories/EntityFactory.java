@@ -10,6 +10,7 @@ import main.swapship.components.SpatialComp;
 import main.swapship.components.TargetComp;
 import main.swapship.components.TimeDelComp;
 import main.swapship.components.VelocityComp;
+import main.swapship.components.diff.BeamComp;
 import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.other.PathFollowComp;
 import main.swapship.components.other.PathTargetComp;
@@ -17,7 +18,6 @@ import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
 import main.swapship.components.player.SpecialComp;
-import main.swapship.util.RandUtil;
 import main.swapship.util.TargetUtil;
 
 import com.artemis.Entity;
@@ -83,8 +83,8 @@ public class EntityFactory {
 
 		SpecialComp spc = world.createComponent(SpecialComp.class);
 		// Testing
-		spc.offensive = OffensiveSpecialType.MISSILE;
-		spc.offensiveCount = 5;
+		spc.offensive = OffensiveSpecialType.BEAM;
+		spc.offensiveCount = 100;
 		e.addComponent(spc);
 
 		HealthComp hc = world.createComponent(HealthComp.class);
@@ -187,6 +187,10 @@ public class EntityFactory {
 			}
 			return;
 		}
+		
+		if (type == OffensiveSpecialType.BEAM) {
+			createBeam(world, sourceX, sourceY);
+		}
 	}
 
 	private static void createMissile(World world, float sourceX,
@@ -218,6 +222,45 @@ public class EntityFactory {
 		world.getManager(GroupManager.class).add(e,
 				Constants.Groups.PLAYER_ATTACK);
 		e.addToWorld();
+	}
+	
+	public static void createBeam(World world, float srcX, float srcY) {
+		// Beams are actually just a bunch of beams
+		int numBeams = Gdx.graphics.getHeight() / Constants.Beam.HEIGHT + 1;
+		float y = srcY;
+		float x = srcX - Constants.Beam.WIDTH / 2;
+		for (int i = 0; i < numBeams; ++i) {
+			Entity e = world.createEntity();
+			
+			SpatialComp sc = world.createComponent(SpatialComp.class);
+			sc.setValues(x, y, Constants.Beam.WIDTH, Constants.Beam.HEIGHT);
+			e.addComponent(sc);
+			
+			SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
+			ssc.name = Constants.Beam.NAME;
+			ssc.tint = Color.WHITE;
+			e.addComponent(ssc);
+			
+			DamageComp dc = world.createComponent(DamageComp.class);
+			dc.damage = Constants.Beam.BASE_DAMAGE;
+			e.addComponent(dc);
+			
+			HealthComp hc = world.createComponent(HealthComp.class);
+			hc.health = Constants.Beam.HEALTH;
+			e.addComponent(hc);
+			
+			// Add the player comp so it moves as we move
+			e.addComponent(world.createComponent(BeamComp.class));
+			
+			TimeDelComp tdc = world.createComponent(TimeDelComp.class);
+			tdc.setValues(Constants.Beam.TIME_OUT);
+			e.addComponent(tdc);
+			
+			world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER_ATTACK);
+			e.addToWorld();
+			
+			y += Constants.Beam.HEIGHT;
+		}
 	}
 
 	public static void createExplosion(World world, float x, float y,
