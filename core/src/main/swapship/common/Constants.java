@@ -10,7 +10,7 @@ public class Constants {
 	public static final int SHIP_WIDTH = 81;
 	public static final int SHIP_HEIGHT = 81;
 	
-	public static final int SPAWN_RATE = 2;
+	public static final float SPAWN_RATE = 1f;
 	
 	public static class MainScreen {
 		public static final String PLAY = "PLAY";
@@ -52,7 +52,7 @@ public class Constants {
 		public static final int BASE_PART_LVL = 1;
 		public static final float FIRE_RATE = 1;
 		
-		public static final int BASE_HEALTH = 100;
+		public static final int BASE_HEALTH = Integer.MAX_VALUE;
 	}
 	
 	public static class Enemy {

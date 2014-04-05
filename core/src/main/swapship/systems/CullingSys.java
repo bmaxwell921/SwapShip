@@ -35,7 +35,7 @@ public class CullingSys extends EntityProcessingSystem {
 		SpatialComp sc = scm.get(e);
 		
 		// Left
-		if (sc.x - sc.width < 0) {
+		if (sc.x + sc.width < 0) {
 			e.deleteFromWorld();
 			return;
 		}		

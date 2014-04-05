@@ -1,15 +1,19 @@
 package main.swapship.systems;
 
+import main.swapship.common.Constants;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.TargetComp;
 import main.swapship.components.VelocityComp;
+import main.swapship.factories.EntityFactory;
 import main.swapship.util.TargetUtil;
 import main.swapship.util.VectorUtil;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.Filter;
+import com.artemis.managers.GroupManager;
 import com.artemis.systems.EntityProcessingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class TargetSys extends EntityProcessingSystem {
@@ -39,10 +43,8 @@ public class TargetSys extends EntityProcessingSystem {
 		
 		// If the target was already destroyed, get a new one
 		if (target == null || !target.isActive()) {
-			target = TargetUtil.findRandTarget(world, tc.targetGroup);
-		}
-		
-		if (target == null) {
+			e.deleteFromWorld();
+			EntityFactory.createExplosion(world, sc.x, sc.y, vc.xVel, vc.yVel);
 			return;
 		}
 		
