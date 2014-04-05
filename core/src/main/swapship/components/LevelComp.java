@@ -12,8 +12,6 @@ public class LevelComp implements Component {
 	// Ship levels combine to form the total level
 	public int overallLevel;
 	
-	// Damage is relative to the level
-	public int damage;
 	
 	public void setValues(int topLevel, int midLevel, int botLevel, int baseDamage) {
 		this.topLevel = topLevel;
@@ -27,12 +25,12 @@ public class LevelComp implements Component {
 		overallLevel = topLevel + midLevel + botLevel;
 	}
 	
-	private void calcDamage(int baseDamage) {
-		damage = baseDamage * overallLevel;
+	public int calcDamage(int baseDamage) {
+		return baseDamage * overallLevel;
 	}
 	
 	@Override
 	public void reset() {
-		topLevel = midLevel = botLevel = overallLevel = damage = 0;
+		topLevel = midLevel = botLevel = overallLevel = 0;
 	}
 }
