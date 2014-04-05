@@ -5,6 +5,7 @@ import main.swapship.components.ShipColorsComp;
 import main.swapship.components.ShipSpritesComp;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
+import main.swapship.components.dist.PlayerComp;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -22,7 +23,7 @@ public class EntityFactory {
 		Entity e = world.createEntity();
 		SpatialComp sc = world.createComponent(SpatialComp.class);
 		sc.setValues(Gdx.graphics.getWidth() / 2 - Constants.Player.WIDTH / 2,
-				Constants.PLAYER_START_HEIGHT, Constants.Player.WIDTH,
+				Constants.Player.MIN_Y, Constants.Player.WIDTH,
 				Constants.Player.HEIGHT);
 		e.addComponent(sc);
 
@@ -40,6 +41,7 @@ public class EntityFactory {
 		vc.setValues(Constants.Player.START_VEL, Constants.Player.START_VEL);
 		e.addComponent(vc);
 		
+		e.addComponent(world.createComponent(PlayerComp.class));
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
 		e.addToWorld();
 
