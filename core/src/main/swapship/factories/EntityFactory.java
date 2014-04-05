@@ -11,6 +11,8 @@ import main.swapship.components.TargetComp;
 import main.swapship.components.TimeDelComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.diff.PlayerComp;
+import main.swapship.components.other.PathFollowComp;
+import main.swapship.components.other.PathTargetComp;
 import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
@@ -129,6 +131,14 @@ public class EntityFactory {
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = Constants.Enemy.BASE_HEALTH;
 		e.addComponent(hc);
+		
+		PathFollowComp pfc = world.createComponent(PathFollowComp.class);
+		pfc.setValues(PathFactory.createPath());
+		e.addComponent(pfc);
+		
+		PathTargetComp tc = world.createComponent(PathTargetComp.class);
+		tc.target = pfc.path.get(pfc.target);
+		e.addComponent(tc);
 
 		world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMY);
 		e.addToWorld();
