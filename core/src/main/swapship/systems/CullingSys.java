@@ -2,6 +2,7 @@ package main.swapship.systems;
 
 import main.swapship.components.SpatialComp;
 import main.swapship.components.diff.PlayerComp;
+import main.swapship.components.other.PathFollowComp;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -19,7 +20,8 @@ public class CullingSys extends EntityProcessingSystem {
 	private ComponentMapper<SpatialComp> scm;
 	
 	public CullingSys() {
-		super(Filter.allComponents(SpatialComp.class).exclude(PlayerComp.class));
+		// Excluding the path followers because they already have deletion methods
+		super(Filter.allComponents(SpatialComp.class).exclude(PlayerComp.class, PathFollowComp.class));
 	}
 	
 	@Override
@@ -42,7 +44,7 @@ public class CullingSys extends EntityProcessingSystem {
 			return;
 		}		
 		// Bottom
-		if (sc.y - sc.height < 0) {
+		if (sc.y + sc.height < 0) {
 			e.deleteFromWorld();
 			return;
 		}		
