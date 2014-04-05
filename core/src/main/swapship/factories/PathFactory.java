@@ -20,16 +20,36 @@ public class PathFactory {
 		Array<Vector2> path = new Array<>();
 		
 		float y = Gdx.graphics.getHeight() - (Constants.SHIP_HEIGHT * 3);
-		float x;
+		float x = Gdx.graphics.getWidth() / 2;
 		
+		// Times 4 because enemies say they're close enough to their target when 
+		// they're within 1 ship_height of it.
 		while (y >= -Constants.SHIP_HEIGHT * 4) {
-			x = MathUtils.random(Gdx.graphics.getWidth() - Constants.SHIP_WIDTH);
+			x = calcNextX(x);
 			path.add(new Vector2(x, y));
 			
 			y -= Constants.SHIP_HEIGHT * 2;
 		}
 		
 		return path;
+	}
+	
+	private static float calcNextX(float curX) {
+		// 50% chance to stay the same way
+		final float CHANCE_SAME = 0.5f;
+		
+		// Don't change it
+		if (MathUtils.randomBoolean(CHANCE_SAME)) {
+			return curX;
+		}
+		
+		// Go Left - 50% chance
+		if (MathUtils.randomBoolean()) {
+			return MathUtils.random(curX);
+		}
+		
+		// Go right
+		return MathUtils.random(curX + 1, Gdx.graphics.getWidth() - Constants.SHIP_WIDTH);		
 	}
 	
 }
