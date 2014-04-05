@@ -3,6 +3,7 @@ package main.swapship.screens;
 import main.swapship.SwapShipGame;
 
 import com.artemis.World;
+import com.artemis.managers.GroupManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -29,6 +30,7 @@ public class GameScreen implements Screen {
 	private void createWorld() {
 		world = new World();
 		
+		world.setManager(new GroupManager());
 		world.initialize();
 	}
 	
