@@ -5,7 +5,7 @@ import main.swapship.components.DamageComp;
 import main.swapship.components.HealthComp;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
-import main.swapship.util.EntityFactory;
+import main.swapship.factories.EntityFactory;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;

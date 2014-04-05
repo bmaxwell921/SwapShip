@@ -7,7 +7,7 @@ import main.swapship.components.SpatialComp;
 import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.components.player.ShipColorsComp;
-import main.swapship.util.EntityFactory;
+import main.swapship.factories.EntityFactory;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;

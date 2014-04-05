@@ -5,7 +5,7 @@ import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.player.SpecialComp;
-import main.swapship.util.EntityFactory;
+import main.swapship.factories.EntityFactory;
 import main.swapship.util.InputProcessingUtil;
 
 import com.artemis.ComponentMapper;

@@ -1,4 +1,4 @@
-package main.swapship.util;
+package main.swapship.factories;
 
 import main.swapship.common.Constants;
 import main.swapship.common.OffensiveSpecialType;
@@ -15,6 +15,7 @@ import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
 import main.swapship.components.player.SpecialComp;
+import main.swapship.util.RandUtil;
 
 import com.artemis.Entity;
 import com.artemis.World;

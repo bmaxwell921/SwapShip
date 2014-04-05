@@ -1,7 +1,7 @@
 package main.swapship.systems;
 
 import main.swapship.components.other.SpawnerComp;
-import main.swapship.util.EntityFactory;
+import main.swapship.factories.EntityFactory;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;

@@ -3,6 +3,7 @@ package main.swapship.screens;
 import main.swapship.SwapShipGame;
 import main.swapship.common.Constants;
 import main.swapship.components.other.SpawnerComp;
+import main.swapship.factories.EntityFactory;
 import main.swapship.systems.CollisionSys;
 import main.swapship.systems.EnemySpawnSys;
 import main.swapship.systems.InputSys;
@@ -12,7 +13,6 @@ import main.swapship.systems.ShotSys;
 import main.swapship.systems.SingleSpriteRenderSys;
 import main.swapship.systems.TargetSys;
 import main.swapship.systems.TimeDelSys;
-import main.swapship.util.EntityFactory;
 
 import com.artemis.Entity;
 import com.artemis.World;
