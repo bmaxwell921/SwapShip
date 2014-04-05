@@ -1,13 +1,40 @@
 package main.swapship.common;
 
+import com.badlogic.gdx.graphics.Color;
+
 
 public class Constants {
 	public static final int SCREEN_WIDTH = 640;
 	public static final int SCREEN_HEIGHT = 800;
 	
+	public static final int PLAYER_START_HEIGHT = 20;
+	
 	public static class MainScreen {
 		public static final String PLAY = "PLAY";
 		public static final String SETTINGS = "SETTINGS";
 		public static final String HELP = "HELP";
+	}
+	
+	public static class Groups {
+		public static final String PLAYER = "PLAYER";
+		public static final String PLAYER_ATTACK = "PLAYER_ATTACK";
+		
+		public static final String ENEMY = "ENEMY";
+		public static final String ENEMY_ATTACK = "ENEMY_ATTACK";
+	}
+	
+	public static class Player {
+		public static final int WIDTH = 81;
+		public static final int HEIGHT = 81;
+		
+		public static final String ARTEMIS_TOP = "Artemis_Top";
+		public static final String ARTEMIS_MID = "Artemis_Mid";
+		public static final String ARTEMIS_BOT = "Artemis_Bot";
+		
+		public static final String GDX_TOP = "Ganymede_Top";
+		public static final String GDX_MID = "Ganymede_Mid";
+		public static final String GDX_BOT = "Ganymede_Bot";
+		
+		public static final Color DEFAULT_COLOR = Color.WHITE; 
 	}
 }
