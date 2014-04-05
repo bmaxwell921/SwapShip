@@ -5,6 +5,7 @@ import main.swapship.common.Constants;
 import main.swapship.components.other.SpawnerComp;
 import main.swapship.factories.EntityFactory;
 import main.swapship.systems.CollisionSys;
+import main.swapship.systems.CullingSys;
 import main.swapship.systems.EnemySpawnSys;
 import main.swapship.systems.InputSys;
 import main.swapship.systems.MovementSys;
@@ -58,6 +59,7 @@ public class GameScreen implements Screen {
 		world.setSystem(new CollisionSys());
 		world.setSystem(new TimeDelSys());
 		world.setSystem(new PathFollowSys());
+		world.setSystem(new CullingSys());
 		
 		world.setManager(new GroupManager());
 		world.initialize();
