@@ -3,9 +3,11 @@ package main.swapship.systems;
 import main.swapship.SwapShipGame;
 import main.swapship.common.Constants;
 import main.swapship.components.SpatialComp;
+import main.swapship.components.VelocityComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
 import main.swapship.util.AssetUtil;
+import main.swapship.util.VectorUtil;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -21,11 +23,12 @@ public class PlayerRenderSys extends EntityProcessingSystem {
 	private final OrthographicCamera camera;
 	
 	private ComponentMapper<SpatialComp> scm;
+	private ComponentMapper<VelocityComp> vcm;
 	private ComponentMapper<ShipColorsComp> sccm;
 	private ComponentMapper<ShipSpritesComp> sscm;
 	
 	public PlayerRenderSys(final SwapShipGame game, OrthographicCamera camera) {
-		super(Filter.allComponents(SpatialComp.class, ShipColorsComp.class, ShipSpritesComp.class));
+		super(Filter.allComponents(SpatialComp.class, VelocityComp.class, ShipColorsComp.class, ShipSpritesComp.class));
 		this.game = game;
 		this.camera = camera;
 	}
@@ -35,11 +38,13 @@ public class PlayerRenderSys extends EntityProcessingSystem {
 		scm = world.getMapper(SpatialComp.class);
 		sccm = world.getMapper(ShipColorsComp.class);
 		sscm = world.getMapper(ShipSpritesComp.class);
+		vcm = world.getMapper(VelocityComp.class);
 	}
 
 	@Override
 	protected void process(Entity e) {
 		SpatialComp sc = scm.get(e);
+		VelocityComp vc = vcm.get(e);
 		ShipColorsComp scc = sccm.get(e);
 		ShipSpritesComp ssc = sscm.get(e);
 		
@@ -49,7 +54,7 @@ public class PlayerRenderSys extends EntityProcessingSystem {
 		TextureRegion botTr = AssetUtil.getInstance().getTexture(ssc.botName);
 		
 		game.batch.setProjectionMatrix(camera.combined);
-		
+		float rotation = VectorUtil.calcRotation(vc.xVel, vc.yVel); // TODO figure out how to do this properly?
 		float y = sc.y;
 		// Draw the parts!
 		// Start at the bottom because y goes upward
