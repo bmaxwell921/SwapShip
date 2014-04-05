@@ -18,6 +18,7 @@ import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
 import main.swapship.components.player.SpecialComp;
 import main.swapship.util.RandUtil;
+import main.swapship.util.TargetUtil;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -85,7 +86,7 @@ public class EntityFactory {
 		spc.offensive = OffensiveSpecialType.MISSILE;
 		spc.offensiveCount = 5;
 		e.addComponent(spc);
-		
+
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = Constants.Player.BASE_HEALTH;
 		e.addComponent(hc);
@@ -127,15 +128,15 @@ public class EntityFactory {
 		LevelComp lc = world.createComponent(LevelComp.class);
 		lc.setValues(0, 0, 1);
 		e.addComponent(lc);
-		
+
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = Constants.Enemy.BASE_HEALTH;
 		e.addComponent(hc);
-		
+
 		PathFollowComp pfc = world.createComponent(PathFollowComp.class);
 		pfc.setValues(PathFactory.createPath());
 		e.addComponent(pfc);
-		
+
 		PathTargetComp tc = world.createComponent(PathTargetComp.class);
 		tc.target = pfc.path.get(pfc.target);
 		e.addComponent(tc);
@@ -178,20 +179,18 @@ public class EntityFactory {
 		}
 
 		if (type == OffensiveSpecialType.MISSILE) {
-			Array<Entity> targets = findTargets(world, sourceX, sourceY);
+			Array<Entity> targets = TargetUtil.findRandTargets(world,
+					Constants.Groups.ENEMY, Constants.Missile.SPAWN_COUNT);
 			// Create a bunch of missiles
 			for (Entity target : targets) {
-				// TODO this isn't spawning in the center. Also, they aren't
-				// moving
-				createMissile(world, sourceX, sourceY,
-						target.getComponent(SpatialComp.class));
+				createMissile(world, sourceX, sourceY, target);
 			}
 			return;
 		}
 	}
 
 	private static void createMissile(World world, float sourceX,
-			float sourceY, SpatialComp target) {
+			float sourceY, Entity target) {
 		Entity e = world.createEntity();
 		SpatialComp sc = world.createComponent(SpatialComp.class);
 		sc.setValues(sourceX - Constants.Missile.WIDTH / 2, sourceY,
@@ -208,6 +207,7 @@ public class EntityFactory {
 
 		TargetComp tc = world.createComponent(TargetComp.class);
 		tc.target = target;
+		tc.targetGroup = Constants.Groups.ENEMY;
 		e.addComponent(tc);
 
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
@@ -216,38 +216,34 @@ public class EntityFactory {
 		e.addComponent(ssc);
 
 		world.getManager(GroupManager.class).add(e,
-				Constants.Groups.PLAYER_ATTACK); 
+				Constants.Groups.PLAYER_ATTACK);
 		e.addToWorld();
 	}
 
-	public static void createExplosion(World world, float x, float y, float xVel, float yVel) {
+	public static void createExplosion(World world, float x, float y,
+			float xVel, float yVel) {
 		Entity e = world.createEntity();
-		
+
 		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(x, y, Constants.Explosion.WIDTH, Constants.Explosion.HEIGHT);
+		sc.setValues(x, y, Constants.Explosion.WIDTH,
+				Constants.Explosion.HEIGHT);
 		e.addComponent(sc);
-		
+
 		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(xVel * Constants.Explosion.VEL_PERC, yVel * Constants.Explosion.VEL_PERC, 0);
+		vc.setValues(xVel * Constants.Explosion.VEL_PERC, yVel
+				* Constants.Explosion.VEL_PERC, 0);
 		e.addComponent(vc);
-		
+
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
 		ssc.name = Constants.Explosion.NAME;
 		ssc.tint = Color.WHITE;
 		e.addComponent(ssc);
-		
+
 		TimeDelComp tdc = world.createComponent(TimeDelComp.class);
 		tdc.setValues(Constants.Explosion.LIFE_TIME);
 		e.addComponent(tdc);
-		
+
 		e.addToWorld();
 	}
-	
-	private static Array<Entity> findTargets(World world, float sourceX,
-			float sourceY) {
-		return RandUtil.chooseNumFrom(
-				Constants.Missile.SPAWN_COUNT,
-				world.getManager(GroupManager.class).getEntities(
-						Constants.Groups.ENEMY));
-	}
+
 }

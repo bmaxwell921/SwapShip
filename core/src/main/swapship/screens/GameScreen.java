@@ -35,7 +35,7 @@ public class GameScreen implements Screen {
 	// Artemis world
 	private World world;
 	
-	// The player, reference here for easy access
+	// The player, reference here for easy access for HUD
 	private Entity player;
 	
 	public GameScreen(final SwapShipGame game) {

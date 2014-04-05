@@ -81,7 +81,7 @@ public class Constants {
 		public static final int SPAWN_COUNT = 3;
 		public static final String NAME = "Missile";
 		
-		public static final float VEL = 300f;
+		public static final float VEL = 500f;
 	}
 	
 	public static class Explosion {

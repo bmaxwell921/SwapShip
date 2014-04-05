@@ -1,10 +1,12 @@
 package main.swapship.components;
 
 import com.artemis.Component;
+import com.artemis.Entity;
 
 public class TargetComp implements Component {
 
-	public SpatialComp target;
+	public Entity target;
+	public String targetGroup;
 	
 	public TargetComp() {
 		target = null;

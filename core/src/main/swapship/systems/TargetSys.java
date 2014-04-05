@@ -3,6 +3,7 @@ package main.swapship.systems;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.TargetComp;
 import main.swapship.components.VelocityComp;
+import main.swapship.util.TargetUtil;
 import main.swapship.util.VectorUtil;
 
 import com.artemis.ComponentMapper;
@@ -34,7 +35,15 @@ public class TargetSys extends EntityProcessingSystem {
 		TargetComp tc = tcm.get(e);
 		VelocityComp vc = vcm.get(e);
 		
-		Vector2 dir = VectorUtil.calcDirection(sc.x, sc.y, tc.target.x, tc.target.y);
+		Entity target = tc.target;
+		
+		// If the target was already destroyed, get a new one
+		if (!target.isActive()) {
+			target = TargetUtil.findRandTarget(world, tc.targetGroup);
+		}
+		
+		SpatialComp tsc = scm.get(target);
+		Vector2 dir = VectorUtil.calcDirection(sc.x, sc.y, tsc.x, tsc.y);
 		vc.setXVel(dir.x * vc.maxVel);
 		vc.setYVel(dir.y * vc.maxVel);
 	}
