@@ -14,7 +14,7 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class RenderSys extends EntityProcessingSystem {
+public class PlayerRenderSys extends EntityProcessingSystem {
 
 	// The game, used to get the camera and sritebatch
 	private final SwapShipGame game;
@@ -24,7 +24,7 @@ public class RenderSys extends EntityProcessingSystem {
 	private ComponentMapper<ShipColorsComp> sccm;
 	private ComponentMapper<ShipSpritesComp> sscm;
 	
-	public RenderSys(final SwapShipGame game, OrthographicCamera camera) {
+	public PlayerRenderSys(final SwapShipGame game, OrthographicCamera camera) {
 		super(Filter.allComponents(SpatialComp.class, ShipColorsComp.class, ShipSpritesComp.class));
 		this.game = game;
 		this.camera = camera;

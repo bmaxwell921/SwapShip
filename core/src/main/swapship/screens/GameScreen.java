@@ -1,7 +1,7 @@
 package main.swapship.screens;
 
 import main.swapship.SwapShipGame;
-import main.swapship.systems.RenderSys;
+import main.swapship.systems.PlayerRenderSys;
 import main.swapship.util.EntityFactory;
 
 import com.artemis.Entity;
@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
 	
 	private void createWorld() {
 		world = new World();
-		world.setSystem(new RenderSys(game, camera));
+		world.setSystem(new PlayerRenderSys(game, camera));
 		world.setManager(new GroupManager());
 		world.initialize();
 	}
