@@ -1,6 +1,7 @@
 package main.swapship.util;
 
 import main.swapship.common.Constants;
+import main.swapship.common.OffensiveSpecialType;
 import main.swapship.components.DamageComp;
 import main.swapship.components.FireRateComp;
 import main.swapship.components.LevelComp;
@@ -10,6 +11,7 @@ import main.swapship.components.dist.PlayerComp;
 import main.swapship.components.other.SingleSpriteComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
+import main.swapship.components.player.SpecialComp;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -69,6 +71,9 @@ public class EntityFactory {
 		frc.startTime = Constants.Player.FIRE_RATE;
 		frc.timeLeft = 0;
 		e.addComponent(frc);
+		
+		SpecialComp spc = world.createComponent(SpecialComp.class);
+		e.addComponent(spc);
 
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
 		e.addToWorld();

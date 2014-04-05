@@ -43,7 +43,7 @@ public class GameScreen implements Screen {
 		world.setSystem(new PlayerRenderSys(game, camera));
 		world.setSystem(new SingleSpriteRenderSys(game, camera));
 		world.setSystem(new MovementSys());
-		world.setSystem(new InputSys());
+		world.setSystem(new InputSys(camera));
 		world.setSystem(new ShotSys());
 		world.setManager(new GroupManager());
 		world.initialize();

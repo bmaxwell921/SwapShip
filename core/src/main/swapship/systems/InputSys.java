@@ -3,6 +3,7 @@ package main.swapship.systems;
 import main.swapship.common.Constants;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.dist.PlayerComp;
+import main.swapship.components.player.SpecialComp;
 import main.swapship.util.InputProcessingUtil;
 
 import com.artemis.ComponentMapper;
@@ -11,22 +12,37 @@ import com.artemis.Filter;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 
 public class InputSys extends EntityProcessingSystem {
 	
+	// Camera used to unproject touch positions
+	private OrthographicCamera camera;
 	private ComponentMapper<VelocityComp> vcm;
+	private ComponentMapper<SpecialComp> scm;
 
-	public InputSys() {
+	// field here, so we don't create lots of data
+	private Vector3 touchPoint;
+	public InputSys(OrthographicCamera camera) {
 		super(Filter.allComponents(VelocityComp.class, PlayerComp.class));
+		touchPoint = Vector3.Zero;
 	}
 	
 	@Override
 	public void initialize() {
 		vcm = world.getMapper(VelocityComp.class);
+		scm = world.getMapper(SpecialComp.class);
 	}
 	
 	@Override
 	public void process(Entity e) {		
+		
+		checkVelocity(e);
+		checkSpecial(e);
+	}
+	
+	private void checkVelocity(Entity e) {
 		// Android controls
 		float xRate = InputProcessingUtil.roundTilt(-Gdx.input.getAccelerometerX());
 		float yRate = InputProcessingUtil.roundTilt(-Gdx.input.getAccelerometerY());
@@ -45,5 +61,26 @@ public class InputSys extends EntityProcessingSystem {
 		}
 		
 		vcm.get(e).setValues(xRate * Constants.Player.MAX_MOVE, yRate * Constants.Player.MAX_MOVE);
+	}
+	
+	private void checkSpecial(Entity e) {
+		if (!Gdx.input.justTouched()) {
+			return;
+		}
+		SpecialComp sc = scm.get(e);
+		camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+		
+		if (touchPoint.x < Gdx.graphics.getWidth() / 2) {
+			// Too bad, no special left
+			if (sc.defensiveCount <= 0) {
+				return;
+			}
+			// Create offensive special
+		} else {
+			if (sc.offensiveCount <= 0) {
+				return;
+			}
+			// Create defensive special
+		}
 	}
 }
