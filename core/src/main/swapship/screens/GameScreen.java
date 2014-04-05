@@ -10,6 +10,7 @@ import main.swapship.systems.EnemySpawnSys;
 import main.swapship.systems.InputSys;
 import main.swapship.systems.MovementSys;
 import main.swapship.systems.PathFollowSys;
+import main.swapship.systems.PlayerBoundSys;
 import main.swapship.systems.PlayerRenderSys;
 import main.swapship.systems.ShotSys;
 import main.swapship.systems.SingleSpriteRenderSys;
@@ -60,6 +61,7 @@ public class GameScreen implements Screen {
 		world.setSystem(new TimeDelSys());
 		world.setSystem(new PathFollowSys());
 		world.setSystem(new CullingSys());
+		world.setSystem(new PlayerBoundSys());
 		
 		world.setManager(new GroupManager());
 		world.initialize();
