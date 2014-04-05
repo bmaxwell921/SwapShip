@@ -4,6 +4,7 @@ import main.swapship.common.Constants;
 import main.swapship.components.ShipColorsComp;
 import main.swapship.components.ShipSpritesComp;
 import main.swapship.components.SpatialComp;
+import main.swapship.components.VelocityComp;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -34,6 +35,10 @@ public class EntityFactory {
 		scc.setValues(Constants.Player.DEFAULT_COLOR,
 				Constants.Player.DEFAULT_COLOR, Constants.Player.DEFAULT_COLOR);
 		e.addComponent(scc);
+		
+		VelocityComp vc = world.createComponent(VelocityComp.class);
+		vc.setValues(Constants.Player.START_VEL, Constants.Player.START_VEL);
+		e.addComponent(vc);
 		
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
 		e.addToWorld();

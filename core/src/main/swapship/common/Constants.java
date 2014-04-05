@@ -37,5 +37,9 @@ public class Constants {
 		
 		public static final Color DEFAULT_COLOR = Color.GREEN; 
 		public static final int SHIP_PART_HEIGHT = 27;
+		
+		public static final float DEGREE_AMT = 0.1f;
+		
+		public static final float START_VEL = 0f;
 	}
 }
