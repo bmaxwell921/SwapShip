@@ -12,6 +12,11 @@ import com.badlogic.gdx.Gdx;
 
 public class EntityFactory {
 
+	/**
+	 * Creates the player, returning so other classes can have easy access to it
+	 * @param world
+	 * @return
+	 */
 	public static Entity createPlayer(World world) {
 		Entity e = world.createEntity();
 		SpatialComp sc = world.createComponent(SpatialComp.class);
@@ -28,7 +33,8 @@ public class EntityFactory {
 		ShipColorsComp scc = world.createComponent(ShipColorsComp.class);
 		scc.setValues(Constants.Player.DEFAULT_COLOR,
 				Constants.Player.DEFAULT_COLOR, Constants.Player.DEFAULT_COLOR);
-
+		e.addComponent(scc);
+		
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
 		e.addToWorld();
 

@@ -35,6 +35,7 @@ public class Constants {
 		public static final String GDX_MID = "Ganymede_Mid";
 		public static final String GDX_BOT = "Ganymede_Bot";
 		
-		public static final Color DEFAULT_COLOR = Color.WHITE; 
+		public static final Color DEFAULT_COLOR = Color.GREEN; 
+		public static final int SHIP_PART_HEIGHT = 27;
 	}
 }

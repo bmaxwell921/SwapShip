@@ -1,7 +1,10 @@
 package main.swapship.screens;
 
 import main.swapship.SwapShipGame;
+import main.swapship.systems.RenderSys;
+import main.swapship.util.EntityFactory;
 
+import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.badlogic.gdx.Gdx;
@@ -19,19 +22,27 @@ public class GameScreen implements Screen {
 	// Artemis world
 	private World world;
 	
+	// The player, reference here for easy access
+	private Entity player;
+	
 	public GameScreen(final SwapShipGame game) {
 		this.game = game;
 		this.camera = new OrthographicCamera();	
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		createWorld();
+		createPlayer();
 	}
 	
 	private void createWorld() {
 		world = new World();
-		
+		world.setSystem(new RenderSys(game, camera));
 		world.setManager(new GroupManager());
 		world.initialize();
+	}
+	
+	private void createPlayer() {
+		player = EntityFactory.createPlayer(world);
 	}
 	
 	@Override
@@ -41,8 +52,7 @@ public class GameScreen implements Screen {
 		
 		camera.update();
 		world.setDelta(delta);
-		world.process();
-		
+		world.process();	
 	}
 
 	@Override
@@ -77,8 +87,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		world.dispose();
 	}
 
 	
