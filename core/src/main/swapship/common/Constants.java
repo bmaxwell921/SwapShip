@@ -84,6 +84,20 @@ public class Constants {
 		public static final float VEL = 500f;
 	}
 	
+	public static class Beam {
+		public static final int WIDTH = 27;
+		public static final int HEIGHT = 63;
+		
+		public static final String NAME = "Beam";
+		
+		// 5 seconds
+		public static final int TIME_OUT = 5;
+		
+		public static final int HEALTH = Integer.MAX_VALUE;
+		
+		public static final int BASE_DAMAGE = 20;
+	}
+	
 	public static class Explosion {
 		public static final int WIDTH = 81;
 		public static final int HEIGHT = 81;
