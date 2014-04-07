@@ -275,6 +275,11 @@ public class EntityFactory {
 			Entity e = world.createEntity();
 			gm.removeFromAllGroups(e);
 
+			MoveWithPlayerComp mwpc = world.createComponent(MoveWithPlayerComp.class);
+			mwpc.xDisplace = Constants.SHIP_WIDTH / 2 - Constants.Beam.WIDTH / 2;
+			mwpc.yDispace = Constants.SHIP_HEIGHT + Constants.Beam.HEIGHT * i;
+			e.addComponent(mwpc);
+			
 			SpatialComp sc = world.createComponent(SpatialComp.class);
 			sc.setValues(x, y, Constants.Beam.WIDTH, Constants.Beam.HEIGHT);
 			e.addComponent(sc);
@@ -292,10 +297,8 @@ public class EntityFactory {
 			HealthComp hc = world.createComponent(HealthComp.class);
 			hc.health = Constants.Beam.HEALTH;
 			e.addComponent(hc);
-
-			// Add the player comp so it moves as we move
+			
 			BeamComp bc = world.createComponent(BeamComp.class);
-			bc.num = i;
 			e.addComponent(bc);
 
 			TimeDelComp tdc = world.createComponent(TimeDelComp.class);
