@@ -107,6 +107,14 @@ public class Constants {
 		public static final int HEALTH = 100;
 	}
 	
+	public static class Invincibility {
+		public static final int WIDTH = 117;
+		public static final int HEIGHT = 117;
+		public static final String NAME = "Invincibility";
+		public static final int HEALTH = Integer.MAX_VALUE;
+		public static final int TIME_OUT = 5;
+	}
+	
 	public static class Explosion {
 		public static final int WIDTH = 81;
 		public static final int HEIGHT = 81;

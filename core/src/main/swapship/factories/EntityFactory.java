@@ -88,7 +88,7 @@ public class EntityFactory {
 
 		SpecialComp spc = world.createComponent(SpecialComp.class);
 		// Testing
-		spc.defensive = DefensiveSpecialType.SHIELD;
+		spc.defensive = DefensiveSpecialType.INVINCIBLITY;
 		spc.defensiveCount = Integer.MAX_VALUE;
 		
 		spc.offensive = OffensiveSpecialType.BEAM;
@@ -345,6 +345,40 @@ public class EntityFactory {
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = Constants.Shield.HEALTH;
 		e.addComponent(hc);
+		
+		// Don't cull the shield, it's removed when the health is gone
+		e.addComponent(world.createComponent(NonCullComp.class));
+
+		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
+		e.addToWorld();
+	}
+	
+	private static void createInvincibility(World world, float sourceX, float sourceY) {
+		Entity e = world.createEntity();
+
+		MoveWithPlayerComp mwpc = world
+				.createComponent(MoveWithPlayerComp.class);
+		mwpc.xDisplace = -(Constants.Invincibility.WIDTH - Constants.SHIP_WIDTH) / 2;
+		mwpc.yDispace = -(Constants.Invincibility.HEIGHT - Constants.SHIP_HEIGHT) / 2;
+		e.addComponent(mwpc);
+
+		SpatialComp sc = world.createComponent(SpatialComp.class);
+		sc.setValues(sourceX + mwpc.xDisplace, sourceY + mwpc.yDispace,
+				Constants.Invincibility.WIDTH, Constants.Invincibility.HEIGHT);
+		e.addComponent(sc);
+
+		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
+		ssc.name = Constants.Invincibility.NAME;
+		ssc.tint = Color.WHITE;
+		e.addComponent(ssc);
+
+		HealthComp hc = world.createComponent(HealthComp.class);
+		hc.health = Constants.Invincibility.HEALTH;
+		e.addComponent(hc);
+		
+		TimeDelComp tdc = world.createComponent(TimeDelComp.class);
+		tdc.setValues(Constants.Invincibility.TIME_OUT);
+		e.addComponent(tdc);
 		
 		// Don't cull the shield, it's removed when the health is gone
 		e.addComponent(world.createComponent(NonCullComp.class));
