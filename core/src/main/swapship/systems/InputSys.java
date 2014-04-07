@@ -102,8 +102,7 @@ public class InputSys extends EntityProcessingSystem {
 			}
 
 			// Create offensive special, only decrement if it was made
-			if (EntityFactory.createOffensiveSpecial(world, sc.offensive, spc.x
-					+ spc.width / 2, spc.y + spc.height)) {
+			if (EntityFactory.createOffensiveSpecial(world, sc.offensive, spc.x, spc.y)) {
 				--sc.offensiveCount;
 			}
 		}

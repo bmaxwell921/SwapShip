@@ -12,7 +12,6 @@ import main.swapship.components.SpatialComp;
 import main.swapship.components.TargetComp;
 import main.swapship.components.TimeDelComp;
 import main.swapship.components.VelocityComp;
-import main.swapship.components.diff.BeamComp;
 import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.other.PathFollowComp;
 import main.swapship.components.other.PathTargetComp;
@@ -90,7 +89,7 @@ public class EntityFactory {
 		// Testing
 		spc.defensive = DefensiveSpecialType.INVINCIBLITY;
 		spc.defensiveCount = Integer.MAX_VALUE;
-		
+
 		spc.offensive = OffensiveSpecialType.BEAM;
 		spc.offensiveCount = Integer.MAX_VALUE;
 		e.addComponent(spc);
@@ -98,7 +97,7 @@ public class EntityFactory {
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = Constants.Player.BASE_HEALTH;
 		e.addComponent(hc);
-		
+
 		// Deletion is handled separately
 		e.addComponent(world.createComponent(NonCullComp.class));
 
@@ -154,7 +153,7 @@ public class EntityFactory {
 		PathTargetComp tc = world.createComponent(PathTargetComp.class);
 		tc.target = pfc.path.get(pfc.target);
 		e.addComponent(tc);
-		
+
 		// Enemies are deleted when they get to the end of the path
 		e.addComponent(world.createComponent(NonCullComp.class));
 
@@ -202,21 +201,13 @@ public class EntityFactory {
 	 */
 	public static boolean createOffensiveSpecial(World world,
 			OffensiveSpecialType type, float sourceX, float sourceY) {
+		// TODO changed sourceX and sourceY to be bottom left corner of player
 		if (type == OffensiveSpecialType.NONE) {
 			return false;
 		}
 
 		if (type == OffensiveSpecialType.MISSILE) {
-			Array<Entity> targets = TargetUtil.findRandTargets(world,
-					Constants.Groups.ENEMY, Constants.Missile.SPAWN_COUNT);
-			// Create a bunch of missiles
-			if (targets == null) {
-				return false;
-			}
-			for (Entity target : targets) {
-				createMissile(world, sourceX, sourceY, target);
-			}
-			return true;
+			return createMissiles(world, sourceX, sourceY);
 		}
 
 		if (type == OffensiveSpecialType.BEAM) {
@@ -234,12 +225,26 @@ public class EntityFactory {
 		if (type == DefensiveSpecialType.SHIELD) {
 			createShield(world, sourceX, sourceY);
 		}
-		
+
 		if (type == DefensiveSpecialType.INVINCIBLITY) {
 			createInvincibility(world, sourceX, sourceY);
 		}
 		return true;
 
+	}
+
+	private static boolean createMissiles(World world, float sourceX,
+			float sourceY) {
+		Array<Entity> targets = TargetUtil.findRandTargets(world,
+				Constants.Groups.ENEMY, Constants.Missile.SPAWN_COUNT);
+		// Create a bunch of missiles
+		if (targets == null) {
+			return false;
+		}
+		for (Entity target : targets) {
+			createMissile(world, sourceX, sourceY, target);
+		}
+		return true;
 	}
 
 	private static void createMissile(World world, float sourceX,
@@ -250,8 +255,10 @@ public class EntityFactory {
 		gm.removeFromAllGroups(e);
 
 		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(sourceX - Constants.Missile.WIDTH / 2, sourceY,
-				Constants.Missile.WIDTH, Constants.Missile.HEIGHT);
+		sc.setValues(sourceX + Constants.SHIP_WIDTH / 2
+				- Constants.Missile.WIDTH / 2, sourceY
+				+ Constants.SHIP_HEIGHT, Constants.Missile.WIDTH,
+				Constants.Missile.HEIGHT);
 		e.addComponent(sc);
 
 		DamageComp dc = world.createComponent(DamageComp.class);
@@ -279,18 +286,20 @@ public class EntityFactory {
 	private static void createBeam(World world, float srcX, float srcY) {
 		// Beams are actually just a bunch of beams
 		int numBeams = Gdx.graphics.getHeight() / Constants.Beam.HEIGHT + 1;
-		float y = srcY;
-		float x = srcX - Constants.Beam.WIDTH / 2;
+		float y = srcY + Constants.SHIP_HEIGHT;
+		float x = srcX + Constants.SHIP_WIDTH / 2 - Constants.Beam.WIDTH / 2;
 		GroupManager gm = world.getManager(GroupManager.class);
 		for (int i = 0; i < numBeams; ++i) {
 			Entity e = world.createEntity();
 			gm.removeFromAllGroups(e);
 
-			MoveWithPlayerComp mwpc = world.createComponent(MoveWithPlayerComp.class);
-			mwpc.xDisplace = Constants.SHIP_WIDTH / 2 - Constants.Beam.WIDTH / 2;
+			MoveWithPlayerComp mwpc = world
+					.createComponent(MoveWithPlayerComp.class);
+			mwpc.xDisplace = Constants.SHIP_WIDTH / 2 - Constants.Beam.WIDTH
+					/ 2;
 			mwpc.yDispace = Constants.SHIP_HEIGHT + Constants.Beam.HEIGHT * i;
 			e.addComponent(mwpc);
-			
+
 			SpatialComp sc = world.createComponent(SpatialComp.class);
 			sc.setValues(x, y, Constants.Beam.WIDTH, Constants.Beam.HEIGHT);
 			e.addComponent(sc);
@@ -308,8 +317,9 @@ public class EntityFactory {
 			HealthComp hc = world.createComponent(HealthComp.class);
 			hc.health = Constants.Beam.HEALTH;
 			e.addComponent(hc);
-			
-			// Beams are removed after a certain amount of time, so don't cull them
+
+			// Beams are removed after a certain amount of time, so don't cull
+			// them
 			e.addComponent(world.createComponent(NonCullComp.class));
 
 			TimeDelComp tdc = world.createComponent(TimeDelComp.class);
@@ -345,15 +355,16 @@ public class EntityFactory {
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = Constants.Shield.HEALTH;
 		e.addComponent(hc);
-		
+
 		// Don't cull the shield, it's removed when the health is gone
 		e.addComponent(world.createComponent(NonCullComp.class));
 
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
 		e.addToWorld();
 	}
-	
-	private static void createInvincibility(World world, float sourceX, float sourceY) {
+
+	private static void createInvincibility(World world, float sourceX,
+			float sourceY) {
 		Entity e = world.createEntity();
 
 		MoveWithPlayerComp mwpc = world
@@ -375,11 +386,11 @@ public class EntityFactory {
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = Constants.Invincibility.HEALTH;
 		e.addComponent(hc);
-		
+
 		TimeDelComp tdc = world.createComponent(TimeDelComp.class);
 		tdc.setValues(Constants.Invincibility.TIME_OUT);
 		e.addComponent(tdc);
-		
+
 		// Don't cull the shield, it's removed when the health is gone
 		e.addComponent(world.createComponent(NonCullComp.class));
 
