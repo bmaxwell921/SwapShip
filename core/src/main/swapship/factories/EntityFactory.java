@@ -7,6 +7,7 @@ import main.swapship.components.DamageComp;
 import main.swapship.components.FireRateComp;
 import main.swapship.components.HealthComp;
 import main.swapship.components.LevelComp;
+import main.swapship.components.NonCullComp;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.TargetComp;
 import main.swapship.components.TimeDelComp;
@@ -97,6 +98,9 @@ public class EntityFactory {
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = Constants.Player.BASE_HEALTH;
 		e.addComponent(hc);
+		
+		// Deletion is handled separately
+		e.addComponent(world.createComponent(NonCullComp.class));
 
 		gm.add(e, Constants.Groups.PLAYER);
 		e.addToWorld();
@@ -150,6 +154,9 @@ public class EntityFactory {
 		PathTargetComp tc = world.createComponent(PathTargetComp.class);
 		tc.target = pfc.path.get(pfc.target);
 		e.addComponent(tc);
+		
+		// Enemies are deleted when they get to the end of the path
+		e.addComponent(world.createComponent(NonCullComp.class));
 
 		gm.add(e, Constants.Groups.ENEMY);
 		e.addToWorld();
@@ -227,6 +234,10 @@ public class EntityFactory {
 		if (type == DefensiveSpecialType.SHIELD) {
 			createShield(world, sourceX, sourceY);
 		}
+		
+		if (type == DefensiveSpecialType.INVINCIBLITY) {
+			createInvincibility(world, sourceX, sourceY);
+		}
 		return true;
 
 	}
@@ -298,8 +309,8 @@ public class EntityFactory {
 			hc.health = Constants.Beam.HEALTH;
 			e.addComponent(hc);
 			
-			BeamComp bc = world.createComponent(BeamComp.class);
-			e.addComponent(bc);
+			// Beams are removed after a certain amount of time, so don't cull them
+			e.addComponent(world.createComponent(NonCullComp.class));
 
 			TimeDelComp tdc = world.createComponent(TimeDelComp.class);
 			tdc.setValues(Constants.Beam.TIME_OUT);
@@ -334,6 +345,9 @@ public class EntityFactory {
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = Constants.Shield.HEALTH;
 		e.addComponent(hc);
+		
+		// Don't cull the shield, it's removed when the health is gone
+		e.addComponent(world.createComponent(NonCullComp.class));
 
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
 		e.addToWorld();
