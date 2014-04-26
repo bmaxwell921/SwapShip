@@ -5,6 +5,7 @@ import main.swapship.common.Constants;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
 public class TargetUtil {
@@ -14,6 +15,9 @@ public class TargetUtil {
 			return null;
 		}
 		Array<Entity> targets = findRandTargets(w, targetGroup, 1);
+		if (targets == null) {
+			return null;
+		}
 		return targets.first();
 	}
 
