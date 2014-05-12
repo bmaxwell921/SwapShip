@@ -11,6 +11,11 @@ public class Constants {
 	public static final int SHIP_HEIGHT = 81;
 	
 	public static final float SPAWN_RATE = .1f;
+
+	public static class Sound {
+		public static final float MUSIC_DEFAULT = 1;
+		public static final float SFX_DEFAULT = .5f;
+	}
 	
 	public static class UI {
 		public static final String TITLE_FONT = "titleFont";
