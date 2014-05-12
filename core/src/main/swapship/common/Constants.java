@@ -12,6 +12,15 @@ public class Constants {
 	
 	public static final float SPAWN_RATE = .1f;
 	
+	public static class UI {
+		public static final String TITLE_FONT = "titleFont";
+		public static final String OPTIONS_FONT = "optionsFont";
+		
+		public static final String WHITE_PX = "whitePx";
+		
+		public static final String OPTION_BUTTON = "optionButton";
+	}
+	
 	public static class MainScreen {
 		public static final String PLAY = "PLAY";
 		public static final String SETTINGS = "SETTINGS";
