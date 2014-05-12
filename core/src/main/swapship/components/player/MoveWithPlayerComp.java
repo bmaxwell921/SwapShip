@@ -1,7 +1,6 @@
 package main.swapship.components.player;
 
 import com.artemis.Component;
-import com.artemis.Entity;
 
 public class MoveWithPlayerComp implements Component {
 
