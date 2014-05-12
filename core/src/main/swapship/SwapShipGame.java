@@ -1,7 +1,7 @@
 package main.swapship;
 
 import main.swapship.common.Constants;
-import main.swapship.screens.GameScreen;
+import main.swapship.screens.MainScreen;
 import main.swapship.util.AssetUtil;
 
 import com.badlogic.gdx.Game;
@@ -9,9 +9,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
@@ -21,7 +23,7 @@ public class SwapShipGame extends Game {
 	public SpriteBatch batch;
 	
 	// Skin used for all menus
-	private Skin skin;
+	public Skin skin;
 
 	@Override
 	public void create() {
@@ -29,7 +31,7 @@ public class SwapShipGame extends Game {
 		batch = new SpriteBatch();
 		createSkin();
 		
-		this.setScreen(new GameScreen(this));
+		this.setScreen(new MainScreen(this));
 		AssetUtil.getInstance().setTextureAtlas(new TextureAtlas(Gdx.files.internal("gameImages.atlas")));
 	}
 	
@@ -47,7 +49,7 @@ public class SwapShipGame extends Game {
 		Pixmap white = new Pixmap(1, 1, Format.RGBA8888);
 		white.setColor(Color.WHITE);
 		white.fill();
-		skin.add(Constants.UI.WHITE_PX, white);
+		skin.add(Constants.UI.WHITE_PX, new Texture(white));
 		
 		TextButtonStyle tbs = new TextButtonStyle();
 		tbs.up = skin.newDrawable(Constants.UI.WHITE_PX, Color.DARK_GRAY);
@@ -55,6 +57,10 @@ public class SwapShipGame extends Game {
 		tbs.over = skin.newDrawable(Constants.UI.WHITE_PX, Color.LIGHT_GRAY);
 		tbs.font = skin.getFont(Constants.UI.OPTIONS_FONT);
 		skin.add(Constants.UI.OPTION_BUTTON, tbs);
+		
+		LabelStyle ls = new LabelStyle();
+		ls.font = skin.getFont(Constants.UI.TITLE_FONT);
+		skin.add(Constants.UI.TITLE_LABEL, ls);
 	}
 
 	@Override

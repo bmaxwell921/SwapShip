@@ -19,6 +19,8 @@ public class Constants {
 		public static final String WHITE_PX = "whitePx";
 		
 		public static final String OPTION_BUTTON = "optionButton";
+		
+		public static final String TITLE_LABEL = "titleLabel";
 	}
 	
 	public static class MainScreen {
