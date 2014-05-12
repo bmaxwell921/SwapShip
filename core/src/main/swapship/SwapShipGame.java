@@ -13,16 +13,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class SwapShipGame extends Game {
 
 	public SpriteBatch batch;
-	public BitmapFont titleFont;
-	public BitmapFont optionFont;
 
 	@Override
 	public void create() {
 		Constants.Player.MAX_Y = Gdx.graphics.getHeight() / 3;
 		batch = new SpriteBatch();
-		titleFont = new BitmapFont();
-		titleFont.scale(2f);
-		optionFont = new BitmapFont();
 		this.setScreen(new GameScreen(this));
 		
 		AssetUtil.getInstance().setTextureAtlas(new TextureAtlas(Gdx.files.internal("gameImages.atlas")));
@@ -38,7 +33,5 @@ public class SwapShipGame extends Game {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		titleFont.dispose();
-		optionFont.dispose();
 	}
 }
