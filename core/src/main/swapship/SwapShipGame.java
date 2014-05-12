@@ -13,12 +13,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class SwapShipGame extends Game {
 
+	// Settings for the game
+	public Settings settings;
+	
 	// SpriteBatch used to draw images
 	public SpriteBatch batch;
 	
@@ -28,6 +32,7 @@ public class SwapShipGame extends Game {
 	@Override
 	public void create() {
 		Constants.Player.MAX_Y = Gdx.graphics.getHeight() / 3;
+		this.settings = new Settings();
 		batch = new SpriteBatch();
 		createSkin();
 		
@@ -61,6 +66,8 @@ public class SwapShipGame extends Game {
 		LabelStyle ls = new LabelStyle();
 		ls.font = skin.getFont(Constants.UI.TITLE_FONT);
 		skin.add(Constants.UI.TITLE_LABEL, ls);
+		
+		ImageButtonStyle artemisStyle = new ImageButtonStyle();
 	}
 
 	@Override
