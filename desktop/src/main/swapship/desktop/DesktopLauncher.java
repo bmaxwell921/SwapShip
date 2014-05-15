@@ -20,6 +20,7 @@ public class DesktopLauncher {
 	}
 	
 	private static void packImages() {
-		TexturePacker2.process("../images", "../android/assets", "gameImages");
+		TexturePacker2.process("../images/game", "../android/assets/game", "gameImages");
+		TexturePacker2.process("../images/ui", "../android/assets/ui", "uiskin");
 	}
 }
