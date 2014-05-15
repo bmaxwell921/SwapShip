@@ -16,12 +16,17 @@
 			name: white, 
 			color: { r: 0.75, g: 0.75, b: 0.75, a: 1 } 
 		},
+		yellow-box: {
+			name: white,
+			color: {hex: "FFFF00"}
+		}
 	},
 	com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		option-button: { 
 			up: dark-box, 
 			down: dark-box, 
 			over: light-box,
+			checked: yellow-box,
 			font: ss-font, 
 			fontColor: white 
 		},

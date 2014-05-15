@@ -21,6 +21,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
  *
  */
 public class SelectScreen extends AbstractScreen { 
+	
+	private ButtonGroup shipGroup;
+	private ButtonGroup levelGroup;
+	
 	public SelectScreen(final SwapShipGame game) {
 		super(game);
 	}
@@ -35,6 +39,16 @@ public class SelectScreen extends AbstractScreen {
 		setUpShipChoice(table);
 		table.row();
 		setUpLevelChoice(table);
+		table.row();
+		
+		final TextButton go = new TextButton("Go!", game.skin, Constants.UI.OPTION_BUTTON);
+		table.add(go);
+		go.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				game.setScreen(new GameScreen(game));
+			}
+		});
 	}
 
 	// Sets up the buttons used to select the ship
@@ -65,7 +79,7 @@ public class SelectScreen extends AbstractScreen {
 		});
 		
 		// only allow one to be selected
-		ButtonGroup bg = new ButtonGroup(artemisButton, ganymedeButton);
+		shipGroup = new ButtonGroup(artemisButton, ganymedeButton);
 	}
 	
 	private void setUpLevelChoice(Table table) {
@@ -110,6 +124,6 @@ public class SelectScreen extends AbstractScreen {
 			}
 		});
 		
-		ButtonGroup bg = new ButtonGroup(l1, l2, l3, infinite);
+		levelGroup = new ButtonGroup(l1, l2, l3, infinite);
 	}
 }

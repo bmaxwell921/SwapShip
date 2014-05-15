@@ -33,7 +33,7 @@ public class MainScreen extends AbstractScreen {
 		PLAY.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(new GameScreen(game));
+				game.setScreen(new SelectScreen(game));
 			}
 		});
 		
