@@ -15,6 +15,9 @@ public class SwapShipGame extends Game {
 	// Settings for the game
 	public Settings settings;
 	
+	// Info used to set up the game
+	public GameInfo gameInfo;
+	
 	// SpriteBatch used to draw images
 	public SpriteBatch batch;
 	
@@ -25,6 +28,7 @@ public class SwapShipGame extends Game {
 	public void create() {
 		Constants.Player.MAX_Y = Gdx.graphics.getHeight() / 3;
 		this.settings = new Settings();
+		this.gameInfo = new GameInfo();
 		batch = new SpriteBatch();
 		skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 		
