@@ -17,15 +17,11 @@ public class Constants {
 		public static final float SFX_DEFAULT = .5f;
 	}
 	
-	public static class UI {
-		public static final String TITLE_FONT = "titleFont";
-		public static final String OPTIONS_FONT = "optionsFont";
-		
-		public static final String WHITE_PX = "whitePx";
-		
+	public static class UI {		
 		public static final String OPTION_BUTTON = "option-button";
-		
 		public static final String TITLE_LABEL = "title-label";
+		public static final String ARTEMIS = "Artemis";
+		public static final String GANYMEDE = "Ganymede DX";
 	}
 	
 	public static class MainScreen {
