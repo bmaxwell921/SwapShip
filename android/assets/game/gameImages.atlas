@@ -1,0 +1,138 @@
+
+gameImages.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Artemis
+  rotate: false
+  xy: 267, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Artemis_Bot
+  rotate: false
+  xy: 350, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Artemis_Mid
+  rotate: false
+  xy: 433, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Artemis_Top
+  rotate: false
+  xy: 516, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Ganymede_Top
+  rotate: false
+  xy: 516, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Beam
+  rotate: false
+  xy: 314, 130
+  size: 27, 36
+  orig: 27, 36
+  offset: 0, 0
+  index: -1
+Bomb
+  rotate: false
+  xy: 204, 56
+  size: 27, 27
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
+Boss1_V2
+  rotate: false
+  xy: 2, 141
+  size: 144, 108
+  orig: 144, 108
+  offset: 0, 0
+  index: -1
+Enemy1
+  rotate: false
+  xy: 599, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Enemy2
+  rotate: false
+  xy: 682, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Explosion
+  rotate: false
+  xy: 765, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Ganymede DX
+  rotate: false
+  xy: 848, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Ganymede_Bot
+  rotate: false
+  xy: 931, 168
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Ganymede_Mid
+  rotate: false
+  xy: 121, 49
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Helper
+  rotate: false
+  xy: 204, 85
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+Invincibility
+  rotate: false
+  xy: 2, 22
+  size: 117, 117
+  orig: 117, 117
+  offset: 0, 0
+  index: -1
+Missile
+  rotate: false
+  xy: 267, 121
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+Shield
+  rotate: false
+  xy: 148, 132
+  size: 117, 117
+  orig: 117, 117
+  offset: 0, 0
+  index: -1
+Shot
+  rotate: false
+  xy: 2, 2
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1

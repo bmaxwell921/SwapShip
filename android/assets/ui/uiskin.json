@@ -1,0 +1,35 @@
+{
+	com.badlogic.gdx.graphics.g2d.BitmapFont: { 
+		ss-font: { 
+			file: SSFont.fnt 
+		} 
+	},
+	com.badlogic.gdx.graphics.Color: {
+		white: {r:1, g: 1, b: 1, a: 1},
+	},
+	com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+		dark-box: { 
+			name: white, 
+			color: { r: 0.25, g: 0.25, b: 0.25, a: 1 } 
+		},
+		light-box: { 
+			name: white, 
+			color: { r: 0.75, g: 0.75, b: 0.75, a: 1 } 
+		},
+	},
+	com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+		option-button: { 
+			up: dark-box, 
+			down: dark-box, 
+			over: light-box,
+			font: ss-font, 
+			fontColor: white 
+		},
+	},
+	com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+		title-label: {
+			font: ss-font,
+			fontColor: white,
+		}
+	}
+}
