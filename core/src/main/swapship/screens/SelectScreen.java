@@ -5,6 +5,7 @@ package main.swapship.screens;
 import main.swapship.SwapShipGame;
 import main.swapship.common.Constants;
 
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -28,7 +29,9 @@ public class SelectScreen extends AbstractScreen {
 		final Label shipLabel = new Label("SHIPS", game.skin, Constants.UI.TITLE_LABEL);
 		table.add(shipLabel);
 		table.row();
-		
-//		final ImageButton artemisButton = new ImageButton(game.skin, styleName);
+		final ImageButton artemisButton = new ImageButton(game.skin, "artemis-button");
+		table.add(artemisButton);
+		final ImageButton ganymedeButton = new ImageButton(game.skin, "ganymede-button");
+		table.add(ganymedeButton);
 	}
 }
