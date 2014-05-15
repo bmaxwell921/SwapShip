@@ -23,9 +23,9 @@ public class Constants {
 		
 		public static final String WHITE_PX = "whitePx";
 		
-		public static final String OPTION_BUTTON = "optionButton";
+		public static final String OPTION_BUTTON = "option-button";
 		
-		public static final String TITLE_LABEL = "titleLabel";
+		public static final String TITLE_LABEL = "title-label";
 	}
 	
 	public static class MainScreen {
