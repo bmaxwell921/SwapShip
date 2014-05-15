@@ -1,17 +1,14 @@
 package main.swapship;
 
 import main.swapship.common.Constants;
-import main.swapship.screens.MainScreen;
+import main.swapship.screens.SelectScreen;
 import main.swapship.util.AssetUtil;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 
 public class SwapShipGame extends Game {
 
@@ -31,7 +28,8 @@ public class SwapShipGame extends Game {
 		batch = new SpriteBatch();
 		skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 		
-		this.setScreen(new MainScreen(this));
+//		this.setScreen(new MainScreen(this));
+		this.setScreen(new SelectScreen(this));
 		AssetUtil.getInstance().setTextureAtlas(new TextureAtlas(Gdx.files.internal("game/gameImages.atlas")));
 	}
 
