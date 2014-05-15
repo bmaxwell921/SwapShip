@@ -31,5 +31,17 @@
 			font: ss-font,
 			fontColor: white,
 		}
+	},
+	com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+		artemis-button: {
+			down: Artemis,
+			up: Artemis,
+			checked: selected-artemis,
+		},
+		ganymede-button: {
+			down: Ganymede,
+			up: Ganymede,
+			checked: selected-ganymede
+		}
 	}
 }

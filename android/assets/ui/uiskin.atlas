@@ -3,6 +3,34 @@ uiskin.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+Artemis
+  rotate: false
+  xy: 2, 5
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+Ganymede
+  rotate: false
+  xy: 85, 5
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+selected-artemis
+  rotate: false
+  xy: 168, 5
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+selected-ganymede
+  rotate: false
+  xy: 251, 5
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
 white
   rotate: false
   xy: 2, 2
