@@ -380,20 +380,8 @@ public class EntityFactory {
 
 	public static void createExplosion(World world, float x, float y,
 			float xVel, float yVel) {
-		Entity e = world.createEntity();
-
-		GroupManager gm = world.getManager(GroupManager.class);
-		gm.removeFromAllGroups(e);
-
-		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(x, y, Constants.Explosion.WIDTH,
-				Constants.Explosion.HEIGHT);
-		e.addComponent(sc);
-
-		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(xVel * Constants.Explosion.VEL_PERC, yVel
-				* Constants.Explosion.VEL_PERC, 0);
-		e.addComponent(vc);
+		Entity e = createBasicEntity(world, xVel, yVel, Constants.Explosion.WIDTH, Constants.Explosion.HEIGHT, xVel * Constants.Explosion.VEL_PERC, yVel
+				* Constants.Explosion.VEL_PERC, 0, NO_HEALTH);
 
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
 		ssc.name = Constants.Explosion.NAME;
