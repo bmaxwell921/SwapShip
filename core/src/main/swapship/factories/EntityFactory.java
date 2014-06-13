@@ -263,24 +263,12 @@ public class EntityFactory {
 
 	private static void createMissile(World world, float sourceX,
 			float sourceY, Entity target) {
-		Entity e = world.createEntity();
-
-		GroupManager gm = world.getManager(GroupManager.class);
-		gm.removeFromAllGroups(e);
-
-		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(sourceX + Constants.SHIP_WIDTH / 2
-				- Constants.Missile.WIDTH / 2, sourceY + Constants.SHIP_HEIGHT,
-				Constants.Missile.WIDTH, Constants.Missile.HEIGHT);
-		e.addComponent(sc);
+		Entity e = createBasicEntity(world, sourceX + Constants.SHIP_WIDTH / 2
+				- Constants.Missile.WIDTH / 2, sourceY + Constants.SHIP_HEIGHT, Constants.Missile.WIDTH, Constants.Missile.HEIGHT, 0, 0, Constants.Missile.VEL, NO_HEALTH);
 
 		DamageComp dc = world.createComponent(DamageComp.class);
 		dc.damage = Integer.MAX_VALUE; // Max Value so it's an insta-kill
 		e.addComponent(dc);
-
-		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(0, 0, Constants.Missile.VEL);
-		e.addComponent(vc);
 
 		TargetComp tc = world.createComponent(TargetComp.class);
 		tc.target = target;
@@ -292,7 +280,7 @@ public class EntityFactory {
 		ssc.tint = Color.WHITE;
 		e.addComponent(ssc);
 
-		gm.add(e, Constants.Groups.PLAYER_ATTACK);
+		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER_ATTACK);
 		e.addToWorld();
 	}
 
@@ -345,69 +333,48 @@ public class EntityFactory {
 			y += Constants.Beam.HEIGHT;
 		}
 	}
-
-	private static void createShield(World world, float sourceX, float sourceY) {
+	
+	// Method to consolidate shield and invincibility code
+	private static Entity createBubble(World world, float sourceX, float sourceY, int bubWidth, int bubHeight, String imgName, int health) {
 		Entity e = world.createEntity();
 
 		MoveWithPlayerComp mwpc = world
 				.createComponent(MoveWithPlayerComp.class);
-		mwpc.xDisplace = -(Constants.Shield.WIDTH - Constants.SHIP_WIDTH) / 2;
-		mwpc.yDispace = -(Constants.Shield.HEIGHT - Constants.SHIP_HEIGHT) / 2;
+		mwpc.xDisplace = -(bubWidth - Constants.SHIP_WIDTH) / 2;
+		mwpc.yDispace = -(bubHeight - Constants.SHIP_HEIGHT) / 2;
 		e.addComponent(mwpc);
 
 		SpatialComp sc = world.createComponent(SpatialComp.class);
 		sc.setValues(sourceX + mwpc.xDisplace, sourceY + mwpc.yDispace,
-				Constants.Shield.WIDTH, Constants.Shield.HEIGHT);
+				bubWidth, bubHeight);
 		e.addComponent(sc);
 
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
-		ssc.name = Constants.Shield.NAME;
+		ssc.name = imgName;
 		ssc.tint = Color.WHITE;
 		e.addComponent(ssc);
 
 		HealthComp hc = world.createComponent(HealthComp.class);
-		hc.health = Constants.Shield.HEALTH;
+		hc.health = health;
 		e.addComponent(hc);
-
-		// Don't cull the shield, it's removed when the health is gone
+		
 		e.addComponent(world.createComponent(NonCullComp.class));
-
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
-		e.addToWorld();
+		return e;
+	}
+
+	private static void createShield(World world, float sourceX, float sourceY) {
+		createBubble(world, sourceX, sourceY, Constants.Shield.WIDTH, Constants.Shield.HEIGHT, Constants.Shield.NAME, Constants.Shield.HEALTH).addToWorld();
 	}
 
 	private static void createInvincibility(World world, float sourceX,
 			float sourceY) {
-		Entity e = world.createEntity();
-
-		MoveWithPlayerComp mwpc = world
-				.createComponent(MoveWithPlayerComp.class);
-		mwpc.xDisplace = -(Constants.Invincibility.WIDTH - Constants.SHIP_WIDTH) / 2;
-		mwpc.yDispace = -(Constants.Invincibility.HEIGHT - Constants.SHIP_HEIGHT) / 2;
-		e.addComponent(mwpc);
-
-		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(sourceX + mwpc.xDisplace, sourceY + mwpc.yDispace,
-				Constants.Invincibility.WIDTH, Constants.Invincibility.HEIGHT);
-		e.addComponent(sc);
-
-		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
-		ssc.name = Constants.Invincibility.NAME;
-		ssc.tint = Color.WHITE;
-		e.addComponent(ssc);
-
-		HealthComp hc = world.createComponent(HealthComp.class);
-		hc.health = Constants.Invincibility.HEALTH;
-		e.addComponent(hc);
+		Entity e = createBubble(world, sourceX, sourceY, Constants.Invincibility.WIDTH, Constants.Invincibility.HEIGHT, Constants.Invincibility.NAME, Constants.Invincibility.HEALTH);
 
 		TimeDelComp tdc = world.createComponent(TimeDelComp.class);
 		tdc.setValues(Constants.Invincibility.TIME_OUT);
 		e.addComponent(tdc);
-
-		// Don't cull the shield, it's removed when the health is gone
-		e.addComponent(world.createComponent(NonCullComp.class));
-
-		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
+		
 		e.addToWorld();
 	}
 
