@@ -3,8 +3,8 @@ package main.swapship.systems;
 import main.swapship.SwapShipGame;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
-import main.swapship.components.diff.BeamComp;
 import main.swapship.components.other.SingleSpriteComp;
+import main.swapship.components.types.BeamComp;
 import main.swapship.util.AssetUtil;
 import main.swapship.util.VectorUtil;
 

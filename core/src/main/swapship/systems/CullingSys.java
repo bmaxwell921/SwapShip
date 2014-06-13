@@ -2,9 +2,9 @@ package main.swapship.systems;
 
 import main.swapship.components.NonCullComp;
 import main.swapship.components.SpatialComp;
-import main.swapship.components.diff.BeamComp;
-import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.other.PathFollowComp;
+import main.swapship.components.types.BeamComp;
+import main.swapship.components.types.PlayerComp;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;

@@ -3,7 +3,7 @@ package main.swapship.systems;
 import main.swapship.common.Constants;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
-import main.swapship.components.diff.PlayerComp;
+import main.swapship.components.types.PlayerComp;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;

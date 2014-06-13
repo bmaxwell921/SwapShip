@@ -13,7 +13,6 @@ import main.swapship.components.SpatialComp;
 import main.swapship.components.TargetComp;
 import main.swapship.components.TimeDelComp;
 import main.swapship.components.VelocityComp;
-import main.swapship.components.diff.PlayerComp;
 import main.swapship.components.other.PathFollowComp;
 import main.swapship.components.other.PathTargetComp;
 import main.swapship.components.other.SingleSpriteComp;
@@ -21,6 +20,7 @@ import main.swapship.components.player.MoveWithPlayerComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
 import main.swapship.components.player.SpecialComp;
+import main.swapship.components.types.PlayerComp;
 import main.swapship.util.TargetUtil;
 
 import com.artemis.Entity;
