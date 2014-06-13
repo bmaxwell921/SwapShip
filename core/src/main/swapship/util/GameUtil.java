@@ -20,7 +20,6 @@ import com.badlogic.gdx.utils.Array;
  */
 public class GameUtil {
 
-	
 	/*
 	 * ===============================================================================
 	 * Input Processing
