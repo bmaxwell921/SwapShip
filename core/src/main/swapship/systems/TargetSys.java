@@ -4,7 +4,7 @@ import main.swapship.components.SpatialComp;
 import main.swapship.components.TargetComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.factories.EntityFactory;
-import main.swapship.util.VectorUtil;
+import main.swapship.util.GameUtil;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -45,7 +45,7 @@ public class TargetSys extends EntityProcessingSystem {
 		}
 		
 		SpatialComp tsc = scm.get(target);
-		Vector2 dir = VectorUtil.calcDirection(sc.x, sc.y, tsc.x, tsc.y);
+		Vector2 dir = GameUtil.calcDirection(sc.x, sc.y, tsc.x, tsc.y);
 		vc.setXVel(dir.x * vc.maxVel);
 		vc.setYVel(dir.y * vc.maxVel);
 	}

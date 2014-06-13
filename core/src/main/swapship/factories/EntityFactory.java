@@ -21,7 +21,7 @@ import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
 import main.swapship.components.player.SpecialComp;
 import main.swapship.components.types.PlayerComp;
-import main.swapship.util.TargetUtil;
+import main.swapship.util.GameUtil;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -236,7 +236,7 @@ public class EntityFactory {
 
 	private static boolean createMissiles(World world, float sourceX,
 			float sourceY) {
-		Array<Entity> targets = TargetUtil.findRandTargets(world,
+		Array<Entity> targets = GameUtil.findRandTargets(world,
 				Constants.Groups.ENEMY, Constants.Missile.SPAWN_COUNT);
 		// Create a bunch of missiles
 		if (targets == null) {

@@ -1,13 +1,12 @@
 package main.swapship.systems.render;
 
 import main.swapship.SwapShipGame;
-import main.swapship.common.Constants;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.player.ShipColorsComp;
 import main.swapship.components.player.ShipSpritesComp;
 import main.swapship.util.AssetUtil;
-import main.swapship.util.VectorUtil;
+import main.swapship.util.GameUtil;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -54,7 +53,7 @@ public class PlayerRenderSys extends EntityProcessingSystem {
 		TextureRegion botTr = AssetUtil.getInstance().getTexture(ssc.botName);
 		
 		game.batch.setProjectionMatrix(camera.combined);
-		float rotation = VectorUtil.calcRotation(vc.xVel, vc.yVel);
+		float rotation = GameUtil.calcRotation(vc.xVel, vc.yVel);
 		// Draw the parts!
 		// Start at the bottom because y goes upward
 		game.batch.setColor(scc.botColor);

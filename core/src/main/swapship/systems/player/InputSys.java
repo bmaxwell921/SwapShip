@@ -7,8 +7,7 @@ import main.swapship.components.player.SpecialComp;
 import main.swapship.components.types.BeamComp;
 import main.swapship.components.types.PlayerComp;
 import main.swapship.factories.EntityFactory;
-import main.swapship.util.InputProcessingUtil;
-import main.swapship.util.TargetUtil;
+import main.swapship.util.GameUtil;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -54,9 +53,9 @@ public class InputSys extends EntityProcessingSystem {
 
 	private void checkVelocity(Entity e) {
 		// Android controls
-		float xRate = InputProcessingUtil.roundTilt(-Gdx.input
+		float xRate = GameUtil.roundTilt(-Gdx.input
 				.getAccelerometerX());
-		float yRate = InputProcessingUtil.roundTilt(-Gdx.input
+		float yRate = GameUtil.roundTilt(-Gdx.input
 				.getAccelerometerY());
 
 		// Desktop controls
@@ -88,7 +87,7 @@ public class InputSys extends EntityProcessingSystem {
 		if (touchPoint.x < Gdx.graphics.getWidth() / 2) {
 			// Too bad, no special left
 			if (sc.defensiveCount <= 0
-					|| !TargetUtil.existsTargets(world, Constants.Groups.ENEMY)) {
+					|| !GameUtil.existsTargets(world, Constants.Groups.ENEMY)) {
 				return;
 			}
 			// Create defensive special
@@ -97,7 +96,7 @@ public class InputSys extends EntityProcessingSystem {
 			}
 		} else {
 			if (sc.offensiveCount <= 0
-					|| !TargetUtil.existsTargets(world, Constants.Groups.ENEMY)) {
+					|| !GameUtil.existsTargets(world, Constants.Groups.ENEMY)) {
 				return;
 			}
 

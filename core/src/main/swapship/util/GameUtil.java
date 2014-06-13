@@ -66,7 +66,7 @@ public class GameUtil {
 	 */
 	public static Array<Entity> findRandTargets(World w, String targetGroup,
 			int amount) {
-		return RandUtil.chooseNumFrom(amount, w.getManager(GroupManager.class)
+		return chooseNumFrom(amount, w.getManager(GroupManager.class)
 				.getEntities(targetGroup));
 	}
 

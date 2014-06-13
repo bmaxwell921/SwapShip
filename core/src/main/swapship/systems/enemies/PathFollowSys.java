@@ -5,13 +5,12 @@ import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.other.PathFollowComp;
 import main.swapship.components.other.PathTargetComp;
-import main.swapship.util.VectorUtil;
+import main.swapship.util.GameUtil;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.Filter;
 import com.artemis.systems.EntityProcessingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class PathFollowSys extends EntityProcessingSystem {
@@ -38,7 +37,7 @@ public class PathFollowSys extends EntityProcessingSystem {
 		PathTargetComp ptc = ptcm.get(e);
 		SpatialComp sc = scm.get(e);
 		
-		float dist = VectorUtil.dist(sc.x, sc.y, ptc.target);
+		float dist = GameUtil.dist(sc.x, sc.y, ptc.target);
 		
 		if (dist <= Constants.SHIP_WIDTH) {
 			PathFollowComp pfc = pfcm.get(e);
@@ -52,7 +51,7 @@ public class PathFollowSys extends EntityProcessingSystem {
 		}
 		
 		// Update the velocity
-		Vector2 dir = VectorUtil.calcDirection(sc.x, sc.y, ptc.target.x, ptc.target.y);
+		Vector2 dir = GameUtil.calcDirection(sc.x, sc.y, ptc.target.x, ptc.target.y);
 		VelocityComp vc = vcm.get(e);
 		vc.xVel = dir.x * vc.maxVel;
 		vc.yVel = dir.y * vc.maxVel;

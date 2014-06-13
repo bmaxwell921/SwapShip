@@ -4,9 +4,8 @@ import main.swapship.SwapShipGame;
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
 import main.swapship.components.other.SingleSpriteComp;
-import main.swapship.components.types.BeamComp;
 import main.swapship.util.AssetUtil;
-import main.swapship.util.VectorUtil;
+import main.swapship.util.GameUtil;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -45,7 +44,7 @@ public class SingleSpriteRenderSys extends EntityProcessingSystem {
 		
 		SingleSpriteComp ssc = sscm.get(e);
 
-		float rotation = vc != null ? VectorUtil.calcRotation(vc.xVel, vc.yVel) : 0;
+		float rotation = vc != null ? GameUtil.calcRotation(vc.xVel, vc.yVel) : 0;
 		TextureRegion tr = AssetUtil.getInstance().getTexture(ssc.name);
 		game.batch.setProjectionMatrix(camera.combined);
 
