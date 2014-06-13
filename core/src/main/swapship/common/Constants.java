@@ -10,7 +10,7 @@ public class Constants {
 	public static final int SHIP_WIDTH = 81;
 	public static final int SHIP_HEIGHT = 81;
 	
-	public static final float SPAWN_RATE = .1f;
+	public static final float SPAWN_RATE = 1f;
 
 	public static class Sound {
 		public static final float MUSIC_DEFAULT = 1;
