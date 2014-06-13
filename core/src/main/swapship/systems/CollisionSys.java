@@ -29,7 +29,7 @@ import com.badlogic.gdx.utils.Array;
 public class CollisionSys extends EntitySystem {
 
 	private SwapShipGame game;
-	
+
 	private ComponentMapper<SpatialComp> scm;
 	private ComponentMapper<VelocityComp> vcm;
 	private ComponentMapper<DamageComp> dcm;
@@ -61,105 +61,11 @@ public class CollisionSys extends EntitySystem {
 	private void setUpCollisionGroups() {
 		collisionGroups = new Array<>();
 		collisionGroups.add(new CollisionGroup(Constants.Groups.PLAYER_ATTACK,
-				Constants.Groups.ENEMY, new CollisionHandler() {
-
-					// We deal damage to the enemy and destroy the shot.
-					// One is a shot, two is an enemy.
-					@Override
-					public void handle(Entity one, Entity two) {
-						HealthComp enemyHp = hcm.get(two);
-						VelocityComp enemyVel = vcm.get(two);
-						SpatialComp enemyLoc = scm.get(two);
-						DamageComp shotDmg = dcm.get(one);
-
-						enemyHp.health -= shotDmg.damage;
-						if (enemyHp.health <= 0) {
-							EntityFactory.createExplosion(world, enemyLoc.x,
-									enemyLoc.y, enemyVel.xVel, enemyVel.yVel);
-							two.deleteFromWorld();
-							world.deleteEntity(two);
-							world.getManager(GroupManager.class)
-									.removeFromAllGroups(two);
-							++game.gameInfo.killCount;
-							// TODO make the score actually right
-							game.gameInfo.score += 50;
-						}
-						HealthComp hc = hcm.getSafe(one);
-						// If it has no health, it's a bullet so remove
-						if (hc == null) {
-							one.deleteFromWorld(); // Remove the bullet
-							world.deleteEntity(one);
-							world.getManager(GroupManager.class)
-									.removeFromAllGroups(one);
-						}
-
-						// Otherwise it's some kind of special so let it go
-					}
-				}));
+				Constants.Groups.ENEMY, new EnemyCountCollisionHandler()));
 		collisionGroups.add(new CollisionGroup(Constants.Groups.ENEMY_ATTACK,
-				Constants.Groups.PLAYER, new CollisionHandler() {
-
-					// TODO this will need to change because it's game over when
-					// the player is dead
-					@Override
-					public void handle(Entity one, Entity two) {
-						HealthComp playerHp = hcm.get(two);
-						VelocityComp playerVel = vcm.getSafe(two);
-						SpatialComp playerLoc = scm.get(two);
-						DamageComp shotDmg = dcm.get(one);
-
-						playerHp.health -= shotDmg.damage;
-						if (playerHp.health <= 0) {
-							if (playerVel != null) {
-								EntityFactory.createExplosion(world,
-										playerLoc.x, playerLoc.y,
-										playerVel.xVel, playerVel.yVel);
-							}
-							two.deleteFromWorld();
-							world.deleteEntity(two);
-							world.getManager(GroupManager.class)
-									.removeFromAllGroups(two);
-						}
-						one.deleteFromWorld(); // Remove the bullet
-						world.deleteEntity(one);
-						world.getManager(GroupManager.class)
-								.removeFromAllGroups(one);
-					}
-				}));
-		collisionGroups.add(new CollisionGroup(Constants.Groups.ENEMY,
-				Constants.Groups.PLAYER, new CollisionHandler() {
-
-					// One is the enemy, two is the player
-					@Override
-					public void handle(Entity one, Entity two) {
-						HealthComp playerHp = hcm.get(two);
-						VelocityComp playerVel = vcm.get(two);
-						SpatialComp playerLoc = scm.get(two);
-						DamageComp enemyDmg = dcm.get(one);
-
-						playerHp.health -= enemyDmg.damage;
-						if (playerHp.health <= 0) {
-							if (playerVel != null) {
-								EntityFactory.createExplosion(world,
-										playerLoc.x, playerLoc.y,
-										playerVel.xVel, playerVel.yVel);
-							}
-							two.deleteFromWorld();
-							world.deleteEntity(two);
-							world.getManager(GroupManager.class)
-									.removeFromAllGroups(two);
-						}
-						VelocityComp enemyVel = vcm.get(one);
-						SpatialComp enemyLoc = scm.get(one);
-						EntityFactory.createExplosion(world, enemyLoc.x,
-								enemyLoc.y, enemyVel.xVel, enemyVel.yVel);
-						one.deleteFromWorld(); // Remove the enemy
-						world.deleteEntity(one);
-						world.getManager(GroupManager.class)
-								.removeFromAllGroups(one);
-					}
-
-				}));
+				Constants.Groups.PLAYER, new BaseCollisionHandler()));
+		collisionGroups.add(new CollisionGroup(Constants.Groups.ENEMY, 
+				Constants.Groups.PLAYER, new BaseCollisionHandler()));
 	}
 
 	@Override
@@ -207,5 +113,68 @@ public class CollisionSys extends EntitySystem {
 
 	private interface CollisionHandler {
 		public void handle(Entity one, Entity two);
+	}
+
+	// Basic handler that just takes health from each entity
+	public class BaseCollisionHandler implements CollisionHandler {
+		public void handle(Entity one, Entity two) {
+			removeHealth(one, two);
+
+			// Check removal
+			checkAndDelete(one);
+			checkAndDelete(two);
+		}
+
+		protected void removeHealth(Entity one, Entity two) {
+			// Get the comps
+			HealthComp oneHc = hcm.get(one);
+			HealthComp twoHc = hcm.get(two);
+			DamageComp oneDmg = dcm.get(one);
+			DamageComp twoDmg = dcm.get(two);
+
+			// Trade damage
+			if (oneHc != null && twoDmg != null) {
+				oneHc.health -= twoDmg.damage;
+			}
+			if (twoHc != null && oneDmg != null) {
+				twoHc.health -= oneDmg.damage;
+			}
+		}
+
+		// Checks whether the entity needs to be deleted and does so if
+		// necessary
+		protected boolean checkAndDelete(Entity e) {
+			HealthComp ehc = hcm.get(e);
+			if (ehc.health <= 0) {
+				if (ehc.killable) {
+					SpatialComp sc = scm.get(e);
+					VelocityComp vc = vcm.get(e);
+					EntityFactory.createExplosion(world, sc.x, sc.y, vc.xVel,
+							vc.yVel);
+				}
+				e.deleteFromWorld();
+				world.getManager(GroupManager.class).removeFromAllGroups(e);
+				return true;
+			}
+			return false;
+		}
+	}
+
+	// Collision handler that updates the score and kill count
+	public class EnemyCountCollisionHandler extends BaseCollisionHandler {
+		@Override
+		public void handle(Entity playerGroup, Entity enemyGroup) {
+			// Remove health
+			super.removeHealth(playerGroup, enemyGroup);
+			// Remove the player thing if necessary
+			checkAndDelete(playerGroup);
+
+			// Remove the enemy if necessary and count it
+			if (checkAndDelete(enemyGroup)) {
+				++game.gameInfo.killCount;
+				// TODO actual score
+				game.gameInfo.score += 50;
+			}
+		}
 	}
 }

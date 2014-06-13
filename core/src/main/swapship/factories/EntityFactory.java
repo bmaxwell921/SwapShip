@@ -51,11 +51,10 @@ public class EntityFactory {
 		e.addComponent(vc);
 
 		// Health data
-		if (health != NO_HEALTH) {
-			HealthComp hc = world.createComponent(HealthComp.class);
-			hc.health = health;
-			e.addComponent(hc);
-		}
+		HealthComp hc = world.createComponent(HealthComp.class);
+		hc.health = health;
+		hc.killable = health != NO_HEALTH;
+		e.addComponent(hc);
 
 		return e;
 	}
@@ -76,7 +75,7 @@ public class EntityFactory {
 		FireRateComp frc = world.createComponent(FireRateComp.class);
 		frc.setValues(fireRate);
 		e.addComponent(frc);
-		
+
 		return e;
 	}
 
@@ -161,11 +160,9 @@ public class EntityFactory {
 	}
 
 	public static void createBoss(World world, Level level) {
-		Entity e = createBasicEntity(
-				world,
-				MathUtils.random(0, Gdx.graphics.getWidth()
-						- 144), Gdx.graphics.getHeight() - 108, 144,
-				108, 0, 0, 0,
+		Entity e = createBasicEntity(world,
+				MathUtils.random(0, Gdx.graphics.getWidth() - 144),
+				Gdx.graphics.getHeight() - 108, 144, 108, 0, 0, 0,
 				Constants.Enemy.BASE_HEALTH);
 		addShipOffense(world, e, 0, 0, 1, Constants.Enemy.BASE_DAMAGE,
 				Constants.Enemy.FIRE_RATE);
@@ -319,6 +316,7 @@ public class EntityFactory {
 
 			HealthComp hc = world.createComponent(HealthComp.class);
 			hc.health = Constants.Beam.HEALTH;
+			hc.killable = false;
 			e.addComponent(hc);
 
 			// Beams are removed after a certain amount of time, so don't cull
@@ -388,9 +386,9 @@ public class EntityFactory {
 
 	public static void createExplosion(World world, float x, float y,
 			float xVel, float yVel) {
-		Entity e = createBasicEntity(world, x, y,
-				Constants.Explosion.WIDTH, Constants.Explosion.HEIGHT, xVel
-						* Constants.Explosion.VEL_PERC, yVel
+		Entity e = createBasicEntity(world, x, y, Constants.Explosion.WIDTH,
+				Constants.Explosion.HEIGHT,
+				xVel * Constants.Explosion.VEL_PERC, yVel
 						* Constants.Explosion.VEL_PERC, 0, NO_HEALTH);
 
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
