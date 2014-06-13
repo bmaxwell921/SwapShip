@@ -46,9 +46,18 @@ public class SelectScreen extends AbstractScreen {
 		go.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(new GameScreen(game));
+				// Make sure they've checked something
+				if (game.gameInfo.level != Level.UNCHOSEN && game.gameInfo.ship != ShipType.UNCHOSEN) {
+					game.setScreen(new GameScreen(game));
+					return;
+				}
+				go.setChecked(false);
 			}
 		});
+		
+		// Set the defaults as checked
+		shipGroup.getButtons().get(0).setChecked(true);
+		levelGroup.getButtons().get(0).setChecked(true);
 	}
 
 	// Sets up the buttons used to select the ship
@@ -64,7 +73,7 @@ public class SelectScreen extends AbstractScreen {
 		artemisButton.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				game.gameInfo.type = ShipType.ARTEMIS;
+				game.gameInfo.ship = ShipType.ARTEMIS;
 			}
 		});
 		
@@ -74,7 +83,7 @@ public class SelectScreen extends AbstractScreen {
 		ganymedeButton.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				game.gameInfo.type = ShipType.GANAMEDE;
+				game.gameInfo.ship = ShipType.GANAMEDE;
 			}
 		});
 		
