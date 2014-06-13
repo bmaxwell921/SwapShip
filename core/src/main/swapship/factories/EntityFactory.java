@@ -164,9 +164,8 @@ public class EntityFactory {
 		Entity e = createBasicEntity(
 				world,
 				MathUtils.random(0, Gdx.graphics.getWidth()
-						- Constants.SHIP_WIDTH), Gdx.graphics.getHeight(),
-				Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT, 0,
-				-Constants.Enemy.MAX_MOVE, Constants.Enemy.MAX_MOVE,
+						- 144), Gdx.graphics.getHeight() - 108, 144,
+				108, 0, 0, 0,
 				Constants.Enemy.BASE_HEALTH);
 		addShipOffense(world, e, 0, 0, 1, Constants.Enemy.BASE_DAMAGE,
 				Constants.Enemy.FIRE_RATE);
@@ -264,7 +263,9 @@ public class EntityFactory {
 	private static void createMissile(World world, float sourceX,
 			float sourceY, Entity target) {
 		Entity e = createBasicEntity(world, sourceX + Constants.SHIP_WIDTH / 2
-				- Constants.Missile.WIDTH / 2, sourceY + Constants.SHIP_HEIGHT, Constants.Missile.WIDTH, Constants.Missile.HEIGHT, 0, 0, Constants.Missile.VEL, NO_HEALTH);
+				- Constants.Missile.WIDTH / 2, sourceY + Constants.SHIP_HEIGHT,
+				Constants.Missile.WIDTH, Constants.Missile.HEIGHT, 0, 0,
+				Constants.Missile.VEL, NO_HEALTH);
 
 		DamageComp dc = world.createComponent(DamageComp.class);
 		dc.damage = Integer.MAX_VALUE; // Max Value so it's an insta-kill
@@ -280,7 +281,8 @@ public class EntityFactory {
 		ssc.tint = Color.WHITE;
 		e.addComponent(ssc);
 
-		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER_ATTACK);
+		world.getManager(GroupManager.class).add(e,
+				Constants.Groups.PLAYER_ATTACK);
 		e.addToWorld();
 	}
 
@@ -333,9 +335,11 @@ public class EntityFactory {
 			y += Constants.Beam.HEIGHT;
 		}
 	}
-	
+
 	// Method to consolidate shield and invincibility code
-	private static Entity createBubble(World world, float sourceX, float sourceY, int bubWidth, int bubHeight, String imgName, int health) {
+	private static Entity createBubble(World world, float sourceX,
+			float sourceY, int bubWidth, int bubHeight, String imgName,
+			int health) {
 		Entity e = world.createEntity();
 
 		MoveWithPlayerComp mwpc = world
@@ -357,31 +361,37 @@ public class EntityFactory {
 		HealthComp hc = world.createComponent(HealthComp.class);
 		hc.health = health;
 		e.addComponent(hc);
-		
+
 		e.addComponent(world.createComponent(NonCullComp.class));
 		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
 		return e;
 	}
 
 	private static void createShield(World world, float sourceX, float sourceY) {
-		createBubble(world, sourceX, sourceY, Constants.Shield.WIDTH, Constants.Shield.HEIGHT, Constants.Shield.NAME, Constants.Shield.HEALTH).addToWorld();
+		createBubble(world, sourceX, sourceY, Constants.Shield.WIDTH,
+				Constants.Shield.HEIGHT, Constants.Shield.NAME,
+				Constants.Shield.HEALTH).addToWorld();
 	}
 
 	private static void createInvincibility(World world, float sourceX,
 			float sourceY) {
-		Entity e = createBubble(world, sourceX, sourceY, Constants.Invincibility.WIDTH, Constants.Invincibility.HEIGHT, Constants.Invincibility.NAME, Constants.Invincibility.HEALTH);
+		Entity e = createBubble(world, sourceX, sourceY,
+				Constants.Invincibility.WIDTH, Constants.Invincibility.HEIGHT,
+				Constants.Invincibility.NAME, Constants.Invincibility.HEALTH);
 
 		TimeDelComp tdc = world.createComponent(TimeDelComp.class);
 		tdc.setValues(Constants.Invincibility.TIME_OUT);
 		e.addComponent(tdc);
-		
+
 		e.addToWorld();
 	}
 
 	public static void createExplosion(World world, float x, float y,
 			float xVel, float yVel) {
-		Entity e = createBasicEntity(world, xVel, yVel, Constants.Explosion.WIDTH, Constants.Explosion.HEIGHT, xVel * Constants.Explosion.VEL_PERC, yVel
-				* Constants.Explosion.VEL_PERC, 0, NO_HEALTH);
+		Entity e = createBasicEntity(world, x, y,
+				Constants.Explosion.WIDTH, Constants.Explosion.HEIGHT, xVel
+						* Constants.Explosion.VEL_PERC, yVel
+						* Constants.Explosion.VEL_PERC, 0, NO_HEALTH);
 
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
 		ssc.name = Constants.Explosion.NAME;
