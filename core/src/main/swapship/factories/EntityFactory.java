@@ -33,6 +33,52 @@ import com.badlogic.gdx.utils.Array;
 
 public class EntityFactory {
 
+	private static final int NO_HEALTH = -1;
+
+	// Creates a basic ship with a location, velocity, and health
+	private static Entity createBasicEntity(World world, float x, float y,
+			int width, int height, float vx, float vy, float vmax, int health) {
+		Entity e = world.createEntity();
+
+		// Location data
+		SpatialComp sc = world.createComponent(SpatialComp.class);
+		sc.setValues(x, y, width, height);
+		e.addComponent(sc);
+
+		// Velocity data
+		VelocityComp vc = world.createComponent(VelocityComp.class);
+		vc.setValues(vx, vy, vmax);
+		e.addComponent(vc);
+
+		// Health data
+		if (health != NO_HEALTH) {
+			HealthComp hc = world.createComponent(HealthComp.class);
+			hc.health = health;
+			e.addComponent(hc);
+		}
+
+		return e;
+	}
+
+	// Adds levels, damage, and fire rate to an entity
+	private static Entity addShipOffense(World world, Entity e, int topL,
+			int midL, int botL, int baseDmg, float fireRate) {
+		// Level data
+		LevelComp lc = world.createComponent(LevelComp.class);
+		lc.setValues(topL, midL, botL);
+		e.addComponent(lc);
+
+		DamageComp dc = world.createComponent(DamageComp.class);
+		// TODO better damage calculation??
+		dc.damage = baseDmg;
+		e.addComponent(dc);
+
+		FireRateComp frc = world.createComponent(FireRateComp.class);
+		frc.setValues(fireRate);
+
+		return e;
+	}
+
 	/**
 	 * Creates the player, returning so other classes can have easy access to it
 	 * 
@@ -40,17 +86,18 @@ public class EntityFactory {
 	 * @return
 	 */
 	public static Entity createPlayer(World world) {
-		Entity e = world.createEntity();
+		Entity e = createBasicEntity(world, Gdx.graphics.getWidth() / 2
+				- Constants.SHIP_WIDTH / 2, Constants.Player.MIN_Y,
+				Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT,
+				Constants.Player.START_VEL, Constants.Player.START_VEL,
+				Constants.Player.MAX_MOVE, Constants.Player.BASE_HEALTH);
 
-		GroupManager gm = world.getManager(GroupManager.class);
-		gm.removeFromAllGroups(e);
+		addShipOffense(world, e, Constants.Player.BASE_PART_LVL,
+				Constants.Player.BASE_PART_LVL, Constants.Player.BASE_PART_LVL,
+				Constants.Player.BASE_DAMAGE, Constants.Player.FIRE_RATE);
 
-		// Location
-		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(Gdx.graphics.getWidth() / 2 - Constants.SHIP_WIDTH / 2,
-				Constants.Player.MIN_Y, Constants.SHIP_WIDTH,
-				Constants.SHIP_HEIGHT);
-		e.addComponent(sc);
+		// Distinguishing comp
+		e.addComponent(world.createComponent(PlayerComp.class));
 
 		// Drawing
 		ShipSpritesComp ssc = world.createComponent(ShipSpritesComp.class);
@@ -62,32 +109,8 @@ public class EntityFactory {
 		scc.setValues(Color.GREEN, Color.RED, Color.BLUE);
 		e.addComponent(scc);
 
-		// Movement
-		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(Constants.Player.START_VEL, Constants.Player.START_VEL,
-				Constants.Player.MAX_MOVE);
-		e.addComponent(vc);
-
-		e.addComponent(world.createComponent(PlayerComp.class));
-
-		// Level
-		LevelComp lc = world.createComponent(LevelComp.class);
-		lc.setValues(Constants.Player.BASE_PART_LVL,
-				Constants.Player.BASE_PART_LVL, Constants.Player.BASE_PART_LVL);
-		e.addComponent(lc);
-
-		// Attacking
-		DamageComp dc = world.createComponent(DamageComp.class);
-		dc.damage = lc.calcDamage(Constants.Player.BASE_DAMAGE);
-		e.addComponent(dc);
-
-		FireRateComp frc = world.createComponent(FireRateComp.class);
-		frc.startTime = Constants.Player.FIRE_RATE;
-		frc.timeLeft = 0;
-		e.addComponent(frc);
-
+		// Testing values
 		SpecialComp spc = world.createComponent(SpecialComp.class);
-		// Testing
 		spc.defensive = DefensiveSpecialType.INVINCIBLITY;
 		spc.defensiveCount = Integer.MAX_VALUE;
 
@@ -95,34 +118,24 @@ public class EntityFactory {
 		spc.offensiveCount = Integer.MAX_VALUE;
 		e.addComponent(spc);
 
-		HealthComp hc = world.createComponent(HealthComp.class);
-		hc.health = Constants.Player.BASE_HEALTH;
-		e.addComponent(hc);
-
 		// Deletion is handled separately
 		e.addComponent(world.createComponent(NonCullComp.class));
 
-		gm.add(e, Constants.Groups.PLAYER);
+		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER);
 		e.addToWorld();
 		return e;
 	}
 
 	public static void createEnemy(World world) {
-		Entity e = world.createEntity();
-
-		GroupManager gm = world.getManager(GroupManager.class);
-		gm.removeFromAllGroups(e);
-
-		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(
+		Entity e = createBasicEntity(
+				world,
 				MathUtils.random(0, Gdx.graphics.getWidth()
 						- Constants.SHIP_WIDTH), Gdx.graphics.getHeight(),
-				Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT);
-		e.addComponent(sc);
-
-		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(0, -Constants.Enemy.MAX_MOVE, Constants.Enemy.MAX_MOVE);
-		e.addComponent(vc);
+				Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT, 0,
+				-Constants.Enemy.MAX_MOVE, Constants.Enemy.MAX_MOVE,
+				Constants.Enemy.BASE_HEALTH);
+		addShipOffense(world, e, 0, 0, 1, Constants.Enemy.BASE_DAMAGE,
+				Constants.Enemy.FIRE_RATE);
 
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
 		ssc.name = Constants.Enemy.NAMES[MathUtils
@@ -131,22 +144,7 @@ public class EntityFactory {
 				.random(Constants.Enemy.COLORS.length - 1)];
 		e.addComponent(ssc);
 
-		DamageComp dc = world.createComponent(DamageComp.class);
-		dc.damage = Constants.Enemy.BASE_DAMAGE;
-		e.addComponent(dc);
-
-		FireRateComp frc = world.createComponent(FireRateComp.class);
-		frc.setValues(Constants.Enemy.FIRE_RATE);
-		e.addComponent(frc);
-
-		LevelComp lc = world.createComponent(LevelComp.class);
-		lc.setValues(0, 0, 1);
-		e.addComponent(lc);
-
-		HealthComp hc = world.createComponent(HealthComp.class);
-		hc.health = Constants.Enemy.BASE_HEALTH;
-		e.addComponent(hc);
-
+		// Path following ai
 		PathFollowComp pfc = world.createComponent(PathFollowComp.class);
 		pfc.setValues(PathFactory.createPath());
 		e.addComponent(pfc);
@@ -158,36 +156,51 @@ public class EntityFactory {
 		// Enemies are deleted when they get to the end of the path
 		e.addComponent(world.createComponent(NonCullComp.class));
 
-		gm.add(e, Constants.Groups.ENEMY);
+		world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMY);
+		e.addToWorld();
+	}
+
+	public static void createBoss(World world, Level level) {
+		Entity e = createBasicEntity(
+				world,
+				MathUtils.random(0, Gdx.graphics.getWidth()
+						- Constants.SHIP_WIDTH), Gdx.graphics.getHeight(),
+				Constants.SHIP_WIDTH, Constants.SHIP_HEIGHT, 0,
+				-Constants.Enemy.MAX_MOVE, Constants.Enemy.MAX_MOVE,
+				Constants.Enemy.BASE_HEALTH);
+		addShipOffense(world, e, 0, 0, 1, Constants.Enemy.BASE_DAMAGE,
+				Constants.Enemy.FIRE_RATE);
+
+		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
+		ssc.name = "Boss1_V2";
+		ssc.tint = level.tint;
+		e.addComponent(ssc);
+
+		e.addComponent(world.createComponent(NonCullComp.class));
+
+		world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMY);
 		e.addToWorld();
 	}
 
 	public static void createShot(World world, float x, float y, int damage,
 			Color tint, boolean playerShot) {
-		Entity e = world.createEntity();
-
-		GroupManager gm = world.getManager(GroupManager.class);
-		gm.removeFromAllGroups(e);
-
-		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(x, y, Constants.Shot.WIDTH, Constants.Shot.HEIGHT);
-		e.addComponent(sc);
+		Entity e = createBasicEntity(world, x, y, Constants.Shot.WIDTH,
+				Constants.Shot.HEIGHT, 0, Constants.Shot.VEL
+						* ((playerShot) ? 1 : -1), 0, NO_HEALTH);
 
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
 		ssc.name = Constants.Shot.SHOT_NAME;
 		ssc.tint = tint;
 		e.addComponent(ssc);
 
-		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.yVel = Constants.Shot.VEL * ((playerShot) ? 1 : -1);
-		e.addComponent(vc);
-
 		DamageComp dc = world.createComponent(DamageComp.class);
 		dc.damage = damage;
 		e.addComponent(dc);
 
-		gm.add(e, playerShot ? Constants.Groups.PLAYER_ATTACK
-				: Constants.Groups.ENEMY_ATTACK);
+		world.getManager(GroupManager.class).add(
+				e,
+				playerShot ? Constants.Groups.PLAYER_ATTACK
+						: Constants.Groups.ENEMY_ATTACK);
 		e.addToWorld();
 	}
 
@@ -257,9 +270,8 @@ public class EntityFactory {
 
 		SpatialComp sc = world.createComponent(SpatialComp.class);
 		sc.setValues(sourceX + Constants.SHIP_WIDTH / 2
-				- Constants.Missile.WIDTH / 2, sourceY
-				+ Constants.SHIP_HEIGHT, Constants.Missile.WIDTH,
-				Constants.Missile.HEIGHT);
+				- Constants.Missile.WIDTH / 2, sourceY + Constants.SHIP_HEIGHT,
+				Constants.Missile.WIDTH, Constants.Missile.HEIGHT);
 		e.addComponent(sc);
 
 		DamageComp dc = world.createComponent(DamageComp.class);
@@ -425,50 +437,6 @@ public class EntityFactory {
 		tdc.setValues(Constants.Explosion.LIFE_TIME);
 		e.addComponent(tdc);
 
-		e.addToWorld();
-	}
-
-	public static void createBoss(World world, Level level) {
-		Entity e = world.createEntity();
-
-		GroupManager gm = world.getManager(GroupManager.class);
-		gm.removeFromAllGroups(e);
-
-		SpatialComp sc = world.createComponent(SpatialComp.class);
-		sc.setValues(
-				MathUtils.random(0, Gdx.graphics.getWidth()
-						- Constants.SHIP_WIDTH), Gdx.graphics.getHeight() - 108,
-				144, 108);
-		e.addComponent(sc);
-
-		VelocityComp vc = world.createComponent(VelocityComp.class);
-		vc.setValues(0, 0, 0);
-		e.addComponent(vc);
-
-		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
-		ssc.name = "Boss1_V2";
-		ssc.tint = level.tint;
-		e.addComponent(ssc);
-
-		DamageComp dc = world.createComponent(DamageComp.class);
-		dc.damage = Constants.Enemy.BASE_DAMAGE;
-		e.addComponent(dc);
-
-		FireRateComp frc = world.createComponent(FireRateComp.class);
-		frc.setValues(Constants.Enemy.FIRE_RATE);
-		e.addComponent(frc);
-
-		LevelComp lc = world.createComponent(LevelComp.class);
-		lc.setValues(0, 0, 1);
-		e.addComponent(lc);
-
-		HealthComp hc = world.createComponent(HealthComp.class);
-		hc.health = Integer.MAX_VALUE;
-		e.addComponent(hc);
-
-		e.addComponent(world.createComponent(NonCullComp.class));
-
-		gm.add(e, Constants.Groups.ENEMY);
 		e.addToWorld();
 	}
 }
