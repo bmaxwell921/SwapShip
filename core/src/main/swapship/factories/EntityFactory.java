@@ -1,5 +1,6 @@
 package main.swapship.factories;
 
+import main.swapship.GameInfo.Level;
 import main.swapship.common.Constants;
 import main.swapship.common.DefensiveSpecialType;
 import main.swapship.common.OffensiveSpecialType;
@@ -427,4 +428,47 @@ public class EntityFactory {
 		e.addToWorld();
 	}
 
+	public static void createBoss(World world, Level level) {
+		Entity e = world.createEntity();
+
+		GroupManager gm = world.getManager(GroupManager.class);
+		gm.removeFromAllGroups(e);
+
+		SpatialComp sc = world.createComponent(SpatialComp.class);
+		sc.setValues(
+				MathUtils.random(0, Gdx.graphics.getWidth()
+						- Constants.SHIP_WIDTH), Gdx.graphics.getHeight() - 108,
+				144, 108);
+		e.addComponent(sc);
+
+		VelocityComp vc = world.createComponent(VelocityComp.class);
+		vc.setValues(0, 0, 0);
+		e.addComponent(vc);
+
+		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
+		ssc.name = "Boss1_V2";
+		ssc.tint = level.tint;
+		e.addComponent(ssc);
+
+		DamageComp dc = world.createComponent(DamageComp.class);
+		dc.damage = Constants.Enemy.BASE_DAMAGE;
+		e.addComponent(dc);
+
+		FireRateComp frc = world.createComponent(FireRateComp.class);
+		frc.setValues(Constants.Enemy.FIRE_RATE);
+		e.addComponent(frc);
+
+		LevelComp lc = world.createComponent(LevelComp.class);
+		lc.setValues(0, 0, 1);
+		e.addComponent(lc);
+
+		HealthComp hc = world.createComponent(HealthComp.class);
+		hc.health = Integer.MAX_VALUE;
+		e.addComponent(hc);
+
+		e.addComponent(world.createComponent(NonCullComp.class));
+
+		gm.add(e, Constants.Groups.ENEMY);
+		e.addToWorld();
+	}
 }

@@ -1,6 +1,7 @@
 package main.swapship.screens;
 
 import main.swapship.SwapShipGame;
+import main.swapship.GameInfo.State;
 import main.swapship.common.Constants;
 import main.swapship.components.other.SpawnerComp;
 import main.swapship.factories.EntityFactory;
@@ -46,6 +47,8 @@ public class GameScreen implements Screen {
 		
 		createWorld();
 		createEnemySpawner();
+		
+		game.gameInfo.targetKc = 5;
 	}
 	
 	private void createWorld() {
@@ -60,7 +63,7 @@ public class GameScreen implements Screen {
 		world.setSystem(new ShotSys());
 		world.setSystem(new EnemySpawnSys());
 		world.setSystem(new TargetSys());
-		world.setSystem(new CollisionSys());
+		world.setSystem(new CollisionSys(game));
 		world.setSystem(new TimeDelSys());
 		world.setSystem(new PathFollowSys());
 		world.setSystem(new CullingSys());
@@ -89,7 +92,12 @@ public class GameScreen implements Screen {
 		
 		camera.update();
 		world.setDelta(delta);
-		world.process();	
+		world.process();
+		
+		if (game.gameInfo.killCount >= game.gameInfo.targetKc && game.gameInfo.state == State.BEGINNING) {
+			EntityFactory.createBoss(world, game.gameInfo.level);
+			game.gameInfo.state = State.BOSS;
+		}
 	}
 
 	@Override

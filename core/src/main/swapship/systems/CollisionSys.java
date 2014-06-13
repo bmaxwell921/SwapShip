@@ -1,5 +1,6 @@
 package main.swapship.systems;
 
+import main.swapship.SwapShipGame;
 import main.swapship.common.Constants;
 import main.swapship.components.DamageComp;
 import main.swapship.components.HealthComp;
@@ -12,7 +13,6 @@ import com.artemis.Entity;
 import com.artemis.Filter;
 import com.artemis.managers.GroupManager;
 import com.artemis.systems.EntitySystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -28,6 +28,8 @@ import com.badlogic.gdx.utils.Array;
  */
 public class CollisionSys extends EntitySystem {
 
+	private SwapShipGame game;
+	
 	private ComponentMapper<SpatialComp> scm;
 	private ComponentMapper<VelocityComp> vcm;
 	private ComponentMapper<DamageComp> dcm;
@@ -39,8 +41,9 @@ public class CollisionSys extends EntitySystem {
 	private Rectangle oneRect;
 	private Rectangle twoRect;
 
-	public CollisionSys() {
+	public CollisionSys(final SwapShipGame game) {
 		super(Filter.allComponents(SpatialComp.class, DamageComp.class));
+		this.game = game;
 		oneRect = new Rectangle();
 		twoRect = new Rectangle();
 	}
@@ -77,6 +80,9 @@ public class CollisionSys extends EntitySystem {
 							world.deleteEntity(two);
 							world.getManager(GroupManager.class)
 									.removeFromAllGroups(two);
+							++game.gameInfo.killCount;
+							// TODO make the score actually right
+							game.gameInfo.score += 50;
 						}
 						HealthComp hc = hcm.getSafe(one);
 						// If it has no health, it's a bullet so remove
