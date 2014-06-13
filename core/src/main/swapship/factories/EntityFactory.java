@@ -75,7 +75,8 @@ public class EntityFactory {
 
 		FireRateComp frc = world.createComponent(FireRateComp.class);
 		frc.setValues(fireRate);
-
+		e.addComponent(frc);
+		
 		return e;
 	}
 
@@ -140,8 +141,7 @@ public class EntityFactory {
 		SingleSpriteComp ssc = world.createComponent(SingleSpriteComp.class);
 		ssc.name = Constants.Enemy.NAMES[MathUtils
 				.random(Constants.Enemy.NAMES.length - 1)];
-		ssc.tint = Constants.Enemy.COLORS[MathUtils
-				.random(Constants.Enemy.COLORS.length - 1)];
+		ssc.tint = Color.GRAY;
 		e.addComponent(ssc);
 
 		// Path following ai
