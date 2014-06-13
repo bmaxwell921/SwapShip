@@ -1,4 +1,4 @@
-package main.swapship.systems;
+package main.swapship.systems.render;
 
 import main.swapship.SwapShipGame;
 import main.swapship.common.Constants;

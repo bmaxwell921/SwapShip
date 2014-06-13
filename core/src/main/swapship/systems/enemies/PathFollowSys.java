@@ -1,4 +1,4 @@
-package main.swapship.systems;
+package main.swapship.systems.enemies;
 
 import main.swapship.common.Constants;
 import main.swapship.components.SpatialComp;

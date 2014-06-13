@@ -1,4 +1,4 @@
-package main.swapship.systems;
+package main.swapship.systems.player;
 
 import main.swapship.components.SpatialComp;
 import main.swapship.components.VelocityComp;
